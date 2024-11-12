@@ -3,7 +3,7 @@ package Rali.SportsCenter.repos.User;
 import jakarta.persistence.*;
 import java.util.Set;
 
-import Rali.SportsCenter.repos.Order.OrderDataModel;
+import Rali.SportsCenter.repos.Receipt.ReceiptDataModel;
 import Rali.SportsCenter.repos.Team.TeamDataModel;
 
 
@@ -23,7 +23,7 @@ public class UserDataModel {
     private String phoneNumber;
     
     @OneToMany(mappedBy = "user")
-    private Set<OrderDataModel> orders;
+    private Set<ReceiptDataModel> orders;
     
     @ManyToMany(mappedBy = "users")
     private Set<TeamDataModel> teams;
@@ -95,11 +95,11 @@ public class UserDataModel {
         this.phoneNumber = phoneNumber;
     }
 
-    public Set<OrderDataModel> getOrders() {
+    public Set<ReceiptDataModel> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<OrderDataModel> orders) {
+    public void setOrders(Set<ReceiptDataModel> orders) {
         this.orders = orders;
     }
 

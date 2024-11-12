@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-import Rali.SportsCenter.repos.Order.OrderDataModel;
+import Rali.SportsCenter.repos.Receipt.ReceiptDataModel;
 import Rali.SportsCenter.repos.Team.TeamDataModel;
 import Rali.SportsCenter.repos.Venue.VenueDataModel;
 
@@ -31,12 +31,12 @@ public class BookingDataModel {
 
     @ManyToMany
     @JoinTable(
-        name = "Booking-Order",
+        name = "Booking-Recipt",
         joinColumns = @JoinColumn(name = "bookingId"),
-        inverseJoinColumns = @JoinColumn (name = "orderId")
+        inverseJoinColumns = @JoinColumn (name = "ReceiptId")
     
     )
-    private Set<OrderDataModel> orders;
+    private Set<ReceiptDataModel> Receipts;
 
     // No-argument constructor
     public BookingDataModel() {}

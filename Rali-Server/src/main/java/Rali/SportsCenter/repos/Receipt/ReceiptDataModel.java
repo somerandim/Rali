@@ -1,4 +1,4 @@
-package Rali.SportsCenter.repos.Order;
+package Rali.SportsCenter.repos.Receipt;
 
 import jakarta.persistence.*;
 import java.util.Set;
@@ -9,12 +9,12 @@ import Rali.SportsCenter.repos.User.UserDataModel;
 
 
 @Entity
-@Table(name = "Orders")
-public class OrderDataModel {
+@Table(name = "Receipt")
+public class ReceiptDataModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Long ReceiptId;
 
     private String paymentMethod;
     private String address;
@@ -25,19 +25,19 @@ public class OrderDataModel {
     @JoinColumn(name = "userId")
     private UserDataModel user;
 
-    @ManyToMany(mappedBy = "orders")
+    @ManyToMany(mappedBy = "Receipts")
     private Set<ProductDataModel> products;
 
-    @ManyToMany(mappedBy = "orders")
+    @ManyToMany(mappedBy = "Receipts")
     private Set<BookingDataModel> Bookings;
 
     // No-argument constructor
-    public OrderDataModel() {
+    public ReceiptDataModel() {
     }
 
-    public OrderDataModel(Long orderId, String paymentMethod, String address, String date, Long total,
+    public ReceiptDataModel(Long ReceiptId, String paymentMethod, String address, String date, Long total,
             UserDataModel user, Set<ProductDataModel> products, Set<BookingDataModel> bookings) {
-        this.orderId = orderId;
+        this.ReceiptId = ReceiptId;
         this.paymentMethod = paymentMethod;
         this.address = address;
         this.date = date;
@@ -48,11 +48,11 @@ public class OrderDataModel {
     }
 
     public Long getOrderId() {
-        return orderId;
+        return ReceiptId;
     }
 
     public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+        this.ReceiptId = ReceiptId;
     }
 
     public String getPaymentMethod() {

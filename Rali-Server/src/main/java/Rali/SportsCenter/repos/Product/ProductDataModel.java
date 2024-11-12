@@ -1,21 +1,19 @@
 package Rali.SportsCenter.repos.Product;
 
-
-
 import jakarta.persistence.*;
 import java.util.Set;
 
 import Rali.SportsCenter.repos.Category.CategoryDataModel;
-import Rali.SportsCenter.repos.Order.OrderDataModel;
+import Rali.SportsCenter.repos.Receipt.ReceiptDataModel;
 
 @Entity
 @Table(name = "Product")
 public class ProductDataModel {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
-    
+
     private Integer quantity;
     private String image;
     private Double price;
@@ -23,57 +21,28 @@ public class ProductDataModel {
     private String description;
 
     @ManyToMany
-    @JoinTable(name = "Product-Order",
-    joinColumns = @JoinColumn(name = "productId"),
-    inverseJoinColumns = @JoinColumn (name = "orderId")
-    )
-    private Set<OrderDataModel> orders;
+    @JoinTable(name = "Product-Order", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "ReceiptId"))
+    private Set<ReceiptDataModel> Receipts;
 
     @ManyToMany
-    @JoinTable(name = "Product-Category",
-    joinColumns = @JoinColumn(name = "productId"),
-    inverseJoinColumns = @JoinColumn (name = "categoryId")
-    )
-    private Set <CategoryDataModel> categorys;
+    @JoinTable(name = "Product-Category", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "categoryId"))
+    private Set<CategoryDataModel> categorys;
 
     // No-argument constructor
-    public ProductDataModel() {}
-
-
-
-
-
-
-    
-
-
-
-
-
+    public ProductDataModel() {
+    }
 
     public ProductDataModel(Long productId, Integer quantity, String image, Double price, String name,
-            String description, Set<OrderDataModel> orders, Set<CategoryDataModel> categorys) {
+            String description, Set<ReceiptDataModel> Receipts, Set<CategoryDataModel> categorys) {
         this.productId = productId;
         this.quantity = quantity;
         this.image = image;
         this.price = price;
         this.name = name;
         this.description = description;
-        this.orders = orders;
+        this.Receipts = Receipts;
         this.categorys = categorys;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     public Long getProductId() {
         return productId;
@@ -123,75 +92,23 @@ public class ProductDataModel {
         this.description = description;
     }
 
-   
-
-
-
-    public Set<OrderDataModel> getOrder() {
-        return orders;
+    public Set<ReceiptDataModel> getReceipts() {
+        return Receipts;
     }
 
-
-
-    public void setOrder(Set<OrderDataModel> order) {
-        this.orders = order;
+    public void setReceipts(Set<ReceiptDataModel> receipts) {
+        Receipts = receipts;
     }
-
-
-
-
-
-
-    public Set<OrderDataModel> getOrders() {
-        return orders;
-    }
-
-
-
-
-
-
-    public void setOrders(Set<OrderDataModel> orders) {
-        this.orders = orders;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
 
     public Set<CategoryDataModel> getCategorys() {
         return categorys;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     public void setCategorys(Set<CategoryDataModel> categorys) {
         this.categorys = categorys;
     }
 
-
-
-
-
-
+   
 
     // Getters and Setters
 }
