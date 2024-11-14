@@ -9,7 +9,7 @@
 <body class="flex items-center justify-center min-h-screen bg-gray-100">
   <main class="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-4xl">
     <!-- Left Side: Sports Images -->
-    <div class="w-full lg:w-1/2 bg-blue-600 p-6 flex flex-col items-center justify-around space-y-4">
+    <div class="w-full lg:w-1/2 p-6 flex flex-col items-center justify-around space-y-4" style="background-color: #055EAF;">
       <div class="flex flex-row space-x-4 w-full">
         <div class="flex-1 aspect-square">
           <img src="/assets/basketball.png" alt="Karate player in action" class="w-full h-full object-contain" loading="lazy">
@@ -31,9 +31,10 @@
     <!-- Right Side: Sign Up Form -->
     <div class="w-full lg:w-1/2 p-8">
       <div class="text-center mb-6">
-        <!-- Logo -->
-        <img src="path/to/logo.png" alt="Rali Sports Center Logo" class="mx-auto mb-4 w-12 h-12" loading="lazy">
-        <h2 class="text-2xl font-semibold text-gray-700">Rali Sports Center</h2>
+        <!-- Larger Logo -->
+        <img src="assets/logo.png" alt="Rali Sports Center Logo" class="mx-auto mb-4" style="width: 100px; height: 100px;" loading="lazy">
+        <!-- Title -->
+        <h2 class="text-2xl font-semibold" style="color: #055EAF;">Rali Sports Center</h2>
         <p class="text-gray-500">Sign Up For an Account</p>
       </div>
       <form action="#" method="POST">
@@ -57,7 +58,8 @@
           <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
           <input type="password" id="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="********" required>
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Sign Up</button>
+        <!-- Sign Up button with hover effect -->
+        <button type="submit" class="w-full text-white py-2 rounded-md focus:outline-none" style="background-color: #055EAF; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#05499C'" onmouseout="this.style.backgroundColor='#055EAF'">Sign Up</button>
       </form>
       <p class="mt-6 text-center text-sm text-gray-600">
         Already have an account? <a href="login" aria-label="Log in link" class="text-blue-600 hover:underline">Log In</a>

@@ -9,7 +9,7 @@
 <body class="flex items-center justify-center min-h-screen bg-gray-100">
   <main class="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-4xl">
     <!-- Left Side: Sports Images -->
-    <div class="w-full lg:w-1/2 bg-blue-600 p-6 flex flex-col items-center justify-around space-y-4">
+    <div class="w-full lg:w-1/2 p-6 flex flex-col items-center justify-around space-y-4" style="background-color: #055EAF;">
       <div class="flex flex-row space-x-4 w-full">
         <div class="flex-1 aspect-square">
           <img src="assets/basketball.png" alt="Karate player in action" class="w-full h-full object-contain" loading="lazy">
@@ -32,29 +32,29 @@
     <div class="w-full lg:w-1/2 p-8">
       <div class="text-center mb-6">
         <!-- Logo -->
-        <img src="path/to/logo.png" alt="Rali Sports Center Logo" class="mx-auto mb-4 w-12 h-12" loading="lazy">
-        <h2 class="text-2xl font-semibold text-gray-700">Rali Sports Center</h2>
+        <img src="assets/logo.png" alt="Rali Sports Center Logo" class="mx-auto mb-4" style="width: 100px; height: 100px;" loading="lazy">
+        <h2 class="text-2xl font-semibold" style="color: #055EAF;">Rali Sports Center</h2>
         <p class="text-gray-500">Log In To Your Account</p>
       </div>
       <form action="#" method="POST">
         <div class="mb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-          <input type="email" id="email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="john.doe@gmail.com" required>
+          <input type="email" id="email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none" placeholder="john.doe@gmail.com" required>
         </div>
         <div class="mb-4">
           <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-          <input type="password" id="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="********" required>
+          <input type="password" id="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none" placeholder="********" required>
         </div>
         <div class="flex items-center justify-between mb-4">
-          <a href="#" aria-label="Forgot password link" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
+          <a href="#" aria-label="Forgot password link" class="text-sm" style="color: #055EAF; hover:underline;">Forgot password?</a>
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Log In</button>
+        <!-- Log In button with hover effect -->
+        <button type="submit" class="w-full text-white py-2 rounded-md focus:outline-none" style="background-color: #055EAF; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#05499C'" onmouseout="this.style.backgroundColor='#055EAF'">Log In</button>
       </form>
       <p class="mt-6 text-center text-sm text-gray-600">
-        Don't have an account? <a href="signup" aria-label="Sign up link" class="text-blue-600 hover:underline">Sign Up</a>
+        Don't have an account? <a href="signup" aria-label="Sign up link" style="color: #055EAF;" class="hover:underline">Sign Up</a>
       </p>
     </div>
   </main>
 </body>
 </html>
-
