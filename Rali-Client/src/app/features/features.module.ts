@@ -17,7 +17,6 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     CommonModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
-      { path: 'sport-detail', component: CourtBookingComponent },
       { path: 'confirmation', component: ConfirmationComponent },
     ]),
   ],
