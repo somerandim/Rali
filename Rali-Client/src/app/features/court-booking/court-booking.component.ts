@@ -30,7 +30,20 @@ export class CourtBookingComponent implements OnInit {
   }
 
   saveInformation(): void {
-    this.router.navigate(['/confirmation']);
+    if (this.selectedDate && this.times.length) {
+      const selectedTime = (document.getElementById('time') as HTMLSelectElement).value;
+      this.router.navigate(['/confirmation'], {
+        queryParams: {
+          sport: this.sport.name,
+          image: this.sport.image,
+          date: this.selectedDate?.toISOString(),
+          time: selectedTime,
+          color: this.sport.color // Pass the color
+        }
+      });
+    } else {
+      alert('Please select a date and time!');
+    }
   }
 
   days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
