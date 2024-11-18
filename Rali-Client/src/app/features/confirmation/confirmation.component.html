@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-[#055EAF] text-white p-4 flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+            <img src="assets/logo.png" alt="Rali Sports Center" class="h-10 w-10">
+            <h1 class="text-lg font-bold">Rali Sports Center</h1>
+        </div>
+        <div class="flex items-center space-x-6">
+            <a href="#" class="hover:underline">HOME</a>
+            <a href="#" class="hover:underline">BOOK COURT</a>
+            <a href="#" class="hover:underline">STORE</a>
+            <a href="#" class="hover:underline">CART</a>
+            <a href="#" class="hover:underline">PROFILE</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="p-8">
+        <h2 class="text-2xl font-bold mb-6">CONFIRM BOOKING</h2>
+
+        <div class="flex flex-wrap lg:flex-nowrap space-y-6 lg:space-y-0 lg:space-x-6">
+            <!-- Sport Image and Info -->
+            <div class="relative w-full lg:w-2/3 bg-red-800 text-white rounded-lg overflow-hidden shadow-lg">
+                <h3 class="absolute top-4 left-4 text-xl font-semibold z-10">Judô</h3>
+                <img src="assets/judo.png" alt="Judô" class="w-full h-64 object-cover">
+            </div>
+
+            <!-- Booking Details -->
+            <div class="w-full lg:w-1/3 bg-white rounded-lg shadow-lg p-6 space-y-6">
+                <!-- Booking Type -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-2">Type of Booking</h4>
+                    <div class="flex space-x-4">
+                        <button class="py-2 px-4 custom-blue text-white rounded-lg shadow-md">Private</button>
+                        <button class="py-2 px-4 bg-gray-200 text-gray-800 rounded-lg shadow-md">Public</button>
+                        <br>
+                    </div>
+                </div>
+
+                <!-- Booking Details -->
+                <div>
+                    <div class="flex items-center mb-2">
+                        <span class="material-icons text-gray-500">attach_money</span>
+                        <p class="ml-2 text-lg font-semibold">Price: $30</p>
+                        <br>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <span class="material-icons text-gray-500">calendar_today</span>
+                        <p class="ml-2 text-lg font-semibold">Date: 18/10/2024</p>
+                        <br>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="material-icons text-gray-500">schedule</span>
+                        <p class="ml-2 text-lg font-semibold">Time: 7:00 PM - 9:00 PM</p>
+                        <br>
+                    </div>
+                </div>
+
+                <!-- Book Court Button -->
+                <button class="custom-blue text-white py-3 px-6 rounded-lg hover:bg-blue-700 w-full">
+                    Book Court →
+                </button>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
