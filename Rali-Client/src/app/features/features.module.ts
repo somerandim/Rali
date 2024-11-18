@@ -18,7 +18,6 @@ import { NavbarComponent } from "./navbar/navbar.component";
 ],
 exports: [
   HomeComponent,
-  CourtBookingComponent
 ]
 })
 export class FeaturesModule { }
