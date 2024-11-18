@@ -7,53 +7,55 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="flex items-center justify-center min-h-screen bg-gray-100">
-  <main class="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-4xl">
+  <main class="flex flex-col lg:flex-row bg-white h-screen w-screen">
     <!-- Left Side: Sports Images -->
-    <div class="w-full lg:w-1/2 p-6 flex flex-col items-center justify-around space-y-4" style="background-color: #055EAF;">
-      <div class="flex flex-row space-x-4 w-full">
+    <div class="w-full lg:w-1/2 px-8 py-6 flex flex-col items-center justify-around" style="background-color: #055EAF;">
+      <div class="flex flex-row w-full">
         <div class="flex-1 aspect-square">
-          <img src="assets/basketball.png" alt="Karate player in action" class="w-full h-full object-contain" loading="lazy">
+          <img src="/assets/basketball.png" alt="basketball" class="w-full h-full object-contain" loading="lazy">
         </div>
         <div class="flex-1 aspect-square">
-          <img src="assets/football.png" alt="Kickboxing athlete in action" class="w-full h-full object-contain" loading="lazy">
+          <img src="/assets/pingpong.png" alt="pingpong" class="w-full h-full object-contain" loading="lazy">
         </div>
       </div>
-      <div class="flex flex-row space-x-4 w-full">
+      <div class="flex flex-row w-full">
         <div class="flex-1 aspect-square">
-          <img src="assets/judo.png" alt="Martial arts action" class="w-full h-full object-contain" loading="lazy">
+          <img src="/assets/judo.png" alt="judo" class="w-full h-full object-contain" loading="lazy">
         </div>
         <div class="flex-1 aspect-square">
-          <img src="assets/volleyball.png" alt="Volleyball player setting the ball" class="w-full h-full object-contain" loading="lazy">
+          <img src="/assets/volleyball.png" alt="volleyball" class="w-full h-full object-contain" loading="lazy">
         </div>
       </div>
     </div>
 
     <!-- Right Side: Login Form -->
-    <div class="w-full lg:w-1/2 p-8">
-      <div class="text-center mb-6">
-        <!-- Logo -->
-        <img src="assets/logo.png" alt="Rali Sports Center Logo" class="mx-auto mb-4" style="width: 100px; height: 100px;" loading="lazy">
-        <h2 class="text-2xl font-semibold" style="color: #055EAF;">Rali Sports Center</h2>
-        <p class="text-gray-500">Log In To Your Account</p>
+    <div class="w-full lg:w-1/2 p-8 flex items-center justify-center">
+      <div class="w-full max-w-md">
+        <div class="text-center mb-6">
+          <!-- Logo -->
+          <img src="assets/logo.png" alt="Rali Sports Center Logo" class="mx-auto mb-4" style="width: 100px; height: 100px;" loading="lazy">
+          <h2 class="text-2xl font-semibold" style="color: #055EAF;">Rali Sports Center</h2>
+          <p class="text-gray-500">Log In To Your Account</p>
+        </div>
+        <form action="#" method="POST">
+          <div class="mb-4">
+            <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+            <input type="email" id="email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="john.doe@gmail.com" required>
+          </div>
+          <div class="mb-4">
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <input type="password" id="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="********" required>
+          </div>
+          <div class="flex items-center justify-between mb-4">
+            <a href="#" aria-label="Forgot password link" class="text-sm" style="color: #055EAF;">Forgot password?</a>
+          </div>
+          <!-- Log In button with hover effect -->
+          <button type="submit" class="w-full text-white py-2 rounded-md focus:outline-none" style="background-color: #055EAF; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#05499C'" onmouseout="this.style.backgroundColor='#055EAF'">Log In</button>
+        </form>
+        <p class="mt-6 text-center text-sm text-gray-600">
+          Don't have an account? <a href="signup" aria-label="Sign up link" style="color: #055EAF;" class="hover:underline">Sign Up</a>
+        </p>
       </div>
-      <form action="#" method="POST">
-        <div class="mb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-          <input type="email" id="email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none" placeholder="john.doe@gmail.com" required>
-        </div>
-        <div class="mb-4">
-          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-          <input type="password" id="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none" placeholder="********" required>
-        </div>
-        <div class="flex items-center justify-between mb-4">
-          <a href="#" aria-label="Forgot password link" class="text-sm" style="color: #055EAF; hover:underline;">Forgot password?</a>
-        </div>
-        <!-- Log In button with hover effect -->
-        <button type="submit" class="w-full text-white py-2 rounded-md focus:outline-none" style="background-color: #055EAF; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#05499C'" onmouseout="this.style.backgroundColor='#055EAF'">Log In</button>
-      </form>
-      <p class="mt-6 text-center text-sm text-gray-600">
-        Don't have an account? <a href="signup" aria-label="Sign up link" style="color: #055EAF;" class="hover:underline">Sign Up</a>
-      </p>
     </div>
   </main>
 </body>
