@@ -8,15 +8,13 @@
 </head>
 <body class="bg-gray-100">
 
-<app-navbar></app-navbar>
-
     <!-- Main Content -->
     <main class="p-8">
         <h2 class="text-2xl font-bold mb-6">Available Sports</h2>
         <div class="grid grid-cols-3 gap-6">
 
             <!-- Futsal Card -->
-            <a href="court-booking" class="block">
+            <a [routerLink]="['/court-booking']" [queryParams]="{ sport: 'Futsal', image: 'assets/futsal.png', color: 'bg-green-800' }" class="block">
                 <div class="relative w-full h-60 bg-green-800 text-white rounded-lg overflow-hidden shadow-lg">
                     <img src="assets/futsal.png" alt="Futsal" class="w-full h-full object-cover">
                     <h3 class="absolute top-4 left-4 text-xl font-semibold z-10">Futsal</h3>
@@ -24,7 +22,7 @@
             </a>
 
             <!-- Running Card -->
-            <a href="court-booking" class="block">
+            <a [routerLink]="['/court-booking']" [queryParams]="{ sport: 'Running', image: 'assets/running.png', color: 'bg-red-600' }" class="block">
                 <div class="relative w-full h-60 bg-red-600 text-white rounded-lg overflow-hidden shadow-lg">
                     <img src="assets/running.png" alt="Running" class="w-full h-full object-cover">
                     <h3 class="absolute top-4 left-4 text-xl font-semibold z-10">Running</h3>
@@ -32,7 +30,7 @@
             </a>
 
             <!-- Swimming Card -->
-            <a href="court-booking" class="block">
+            <a [routerLink]="['/court-booking']" [queryParams]="{ sport: 'Swimming', image: 'assets/swimming.png', color: 'bg-blue-700' }" class="block">
                 <div class="relative w-full h-60 bg-blue-700 text-white rounded-lg overflow-hidden shadow-lg">
                     <img src="assets/swimming.png" alt="Swimming" class="w-full h-full object-cover">
                     <h3 class="absolute top-4 left-4 text-xl font-semibold z-10">Swimming</h3>
@@ -40,7 +38,7 @@
             </a>
 
             <!-- Basketball Card -->
-            <a href="court-booking" class="block">
+            <a [routerLink]="['/court-booking']" [queryParams]="{ sport: 'Basketball', image: 'assets/basketball.png', color: 'bg-orange-600' }" class="block">
                 <div class="relative w-full h-60 bg-orange-600 text-white rounded-lg overflow-hidden shadow-lg">
                     <img src="assets/basketball.png" alt="Basketball" class="w-full h-full object-cover">
                     <h3 class="absolute top-4 left-4 text-xl font-semibold z-10">Basketball</h3>
@@ -48,7 +46,7 @@
             </a>
 
             <!-- Judo Card -->
-            <a href="court-booking" class="block">
+            <a [routerLink]="['/court-booking']" [queryParams]="{ sport: 'Judo', image: 'assets/judo.png', color: 'bg-red-800' }" class="block">
                 <div class="relative w-full h-60 bg-red-800 text-white rounded-lg overflow-hidden shadow-lg">
                     <img src="assets/judo.png" alt="Judo" class="w-full h-full object-cover">
                     <h3 class="absolute top-4 left-4 text-xl font-semibold z-10">Judo</h3>
@@ -56,7 +54,7 @@
             </a>
 
             <!-- Volleyball Card -->
-            <a href="court-booking" class="block">
+            <a [routerLink]="['/court-booking']" [queryParams]="{ sport: 'Volleyball', image: 'assets/volleyball.png', color: 'bg-yellow-500' }" class="block">
                 <div class="relative w-full h-60 bg-yellow-500 text-white rounded-lg overflow-hidden shadow-lg">
                     <img src="assets/volleyball.png" alt="Volleyball" class="w-full h-full object-cover">
                     <h3 class="absolute top-4 left-4 text-xl font-semibold z-10">Volleyball</h3>
@@ -64,7 +62,7 @@
             </a>
 
             <!-- Ping-Pong Card -->
-            <a href="court-booking" class="block">
+            <a [routerLink]="['/court-booking']" [queryParams]="{ sport: 'Ping-Pong', image: 'assets/pingpong.png', color: 'bg-teal-700' }" class="block">
                 <div class="relative w-full h-60 bg-teal-700 text-white rounded-lg overflow-hidden shadow-lg">
                     <img src="assets/pingpong.png" alt="Ping-Pong" class="w-full h-full object-cover">
                     <h3 class="absolute top-4 left-4 text-xl font-semibold z-10">Ping-Pong</h3>
