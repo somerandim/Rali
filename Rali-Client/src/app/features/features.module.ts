@@ -9,7 +9,6 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 @NgModule({
   declarations: [
-    HomeComponent,
     CourtBookingComponent
 
   ],
