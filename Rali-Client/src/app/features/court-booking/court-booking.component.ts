@@ -44,6 +44,7 @@ export class CourtBookingComponent implements OnInit {
   saveInformation(): void {
     const selectedTime = (document.getElementById('time') as HTMLSelectElement).value;
     const selectedCourt = (document.getElementById('court') as HTMLSelectElement).value;
+    const bookingType = this.bookingType;
 
     if (this.selectedDate && selectedTime && selectedCourt) {
       this.router.navigate(['/confirmation'], {
@@ -53,6 +54,7 @@ export class CourtBookingComponent implements OnInit {
           date: this.selectedDate?.toISOString(),
           time: selectedTime,
           court: selectedCourt,
+          type: bookingType,
           color: this.sport.color // Pass the color
         }
       });
