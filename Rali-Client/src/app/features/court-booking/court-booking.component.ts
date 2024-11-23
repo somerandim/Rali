@@ -16,7 +16,15 @@ export class CourtBookingComponent implements OnInit {
     color: ''
   };
 
-  times: string[] = ['7:00 AM - 9:00 AM', '10:00 AM - 12:00 PM', '3:00 PM - 5:00 PM'];
+  times: string[] = ['10:00 AM - 12:00 AM', '1:00 PM - 3:00 PM', '4:00 PM - 6:00 PM', '7:00 PM - 9:00 PM'];
+  courts: string[] = []; // Array for court options
+  selectedDate: Date | null = null;
+  selectedCourt: string | null = null;
+  bookingType: string = 'Private'; // Default booking type
+
+  days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  currentMonth: Date = new Date();
+  calendarDays: Date[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
@@ -25,31 +33,33 @@ export class CourtBookingComponent implements OnInit {
       this.sport.name = params['sport'] || 'Sport';
       this.sport.image = params['image'] || '';
       this.sport.color = params['color'] || 'bg-gray-200';
+
+      // Generate court options dynamically based on the sport
+      const sportInitial = this.sport.name.charAt(0).toUpperCase();
+      this.courts = Array.from({ length: 3 }, (_, i) => `${sportInitial}${i + 1}`);
     });
     this.generateCalendar(this.currentMonth);
   }
 
   saveInformation(): void {
-    if (this.selectedDate && this.times.length) {
-      const selectedTime = (document.getElementById('time') as HTMLSelectElement).value;
+    const selectedTime = (document.getElementById('time') as HTMLSelectElement).value;
+    const selectedCourt = (document.getElementById('court') as HTMLSelectElement).value;
+
+    if (this.selectedDate && selectedTime && selectedCourt) {
       this.router.navigate(['/confirmation'], {
         queryParams: {
           sport: this.sport.name,
           image: this.sport.image,
           date: this.selectedDate?.toISOString(),
           time: selectedTime,
+          court: selectedCourt,
           color: this.sport.color // Pass the color
         }
       });
     } else {
-      alert('Please select a date and time!');
+      alert('Please select a date, time, and court!');
     }
   }
-
-  days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  currentMonth: Date = new Date();
-  calendarDays: Date[] = [];
-  selectedDate: Date | null = null;
 
   generateCalendar(date: Date): void {
     this.calendarDays = [];
@@ -128,5 +138,9 @@ export class CourtBookingComponent implements OnInit {
       this.selectedDate?.getMonth() === date.getMonth() &&
       this.selectedDate?.getFullYear() === date.getFullYear()
     );
+  }
+
+  setBookingType(type: string): void {
+    this.bookingType = type;
   }
 }

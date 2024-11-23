@@ -14,7 +14,6 @@ export class ConfirmationComponent implements OnInit {
   sportImage: string = '';
   selectedDate: string = '';
   selectedTime: string = '';
-  bookingType: string = 'Private'; // Default booking type
   sportColor: string = 'bg-gray-200';
   
   constructor(private route: ActivatedRoute) {}
@@ -27,9 +26,5 @@ export class ConfirmationComponent implements OnInit {
       this.selectedTime = params['time'] || '';
       this.sportColor = params['color'] || 'bg-gray-200';
     });
-  }
-
-  setBookingType(type: string): void {
-    this.bookingType = type;
   }
 }

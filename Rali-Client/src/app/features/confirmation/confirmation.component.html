@@ -26,25 +26,6 @@
 
       <!-- Booking Details -->
       <div class="w-full lg:w-1/3 bg-white rounded-lg shadow-lg p-6 space-y-6 flex flex-col justify-between">
-        <!-- Booking Type -->
-        <div>
-          <h4 class="text-lg font-semibold mb-2">Booking Type</h4>
-          <div class="flex space-x-4">
-            <button 
-              class="py-2 px-4 rounded-lg shadow-md"
-              [ngClass]="bookingType === 'Private' ? 'bg-[#055EAF] text-white' : 'bg-gray-200 text-gray-800'"
-              (click)="setBookingType('Private')">
-              Private
-            </button>
-            <button 
-              class="py-2 px-4 rounded-lg shadow-md"
-              [ngClass]="bookingType === 'Public' ? 'bg-[#055EAF] text-white' : 'bg-gray-200 text-gray-800'"
-              (click)="setBookingType('Public')">
-              Public
-            </button>
-          </div>
-        </div>
-
         <!-- Booking Details -->
         <div>
           <div class="flex items-center mb-8">
