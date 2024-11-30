@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface CartItem {
   name: string;
@@ -8,18 +9,28 @@ interface CartItem {
   image: string;
 }
 
+interface BillingAddress {
+  street: string;
+  city: string;
+  country: string;
+}
+
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule], // Import CommonModule for pipes
+  imports: [CommonModule, FormsModule],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent {
   cartItems: CartItem[] = [];
+  billingAddress: BillingAddress = {
+    street: '',
+    city: '',
+    country: '',
+  };
 
   constructor() {
-    // Load cart items from localStorage or a service
     const storedItems = localStorage.getItem('cart');
     this.cartItems = storedItems ? JSON.parse(storedItems) : [];
   }
@@ -36,11 +47,25 @@ export class CartComponent {
     }
   }
 
-  getTotal(): number {
+  removeItem(index: number): void {
+    this.cartItems.splice(index, 1); // Remove item
+    this.saveCart();
+  }
+
+  getSubtotal(): number {
     return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  }
+
+  getTotal(): number {
+    return this.getSubtotal(); // Add additional tax/discount logic if needed
   }
 
   saveCart(): void {
     localStorage.setItem('cart', JSON.stringify(this.cartItems));
+  }
+
+  checkout(): void {
+    console.log('Checkout initiated with address:', this.billingAddress);
+    alert('Checkout complete!');
   }
 }

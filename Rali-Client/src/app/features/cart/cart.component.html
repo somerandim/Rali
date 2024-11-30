@@ -14,12 +14,16 @@
     <div class="flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-8">
       <!-- Cart Items -->
       <div class="w-full lg:w-2/3 bg-white rounded-lg shadow-lg p-6 space-y-6">
-        <div *ngFor="let item of cartItems; let i = index" class="flex justify-between items-center border-b pb-4">
-          <!-- Item Details -->
-          <div>
-            <h3 class="text-lg font-bold text-gray-800">{{ item.name }}</h3>
-            <p class="text-gray-600 text-sm">{{ item.price | currency }}</p>
+        <div *ngFor="let item of cartItems; let i = index" class="flex items-start border-b pb-4">
+          <!-- Product Image -->
+          <div class="w-24 h-24">
+            <img [src]="item.image" alt="{{ item.name }}" class="w-full h-full object-contain">
+          </div>
 
+          <!-- Item Details -->
+          <div class="ml-6 flex-1">
+            <h3 class="text-lg font-bold text-gray-800">{{ item.name }}</h3>
+            
             <!-- Quantity Selector -->
             <div class="flex items-center mt-4">
               <button
@@ -36,27 +40,71 @@
             </div>
           </div>
 
-          <!-- Product Image -->
-          <div>
-            <img [src]="item.image" alt="{{ item.name }}" class="w-24 h-24 object-contain">
+          <!-- Price and Remove -->
+          <div class="text-right">
+            <p class="text-gray-800 font-bold">{{ item.price | currency }}</p>
+            <button
+              class="text-gray-500 hover:text-red-500 mt-2"
+              (click)="removeItem(i)">
+              ✕
+            </button>
           </div>
         </div>
       </div>
 
       <!-- Order Summary -->
       <div class="w-full lg:w-1/3 bg-white rounded-lg shadow-lg p-6">
+        <!-- Billing Address -->
+        <h3 class="text-xl font-bold mb-4">Billing Address</h3>
+        <div class="space-y-4 mb-6">
+          <label class="block">
+            <span class="text-gray-600 text-sm">Street Address</span>
+            <input
+              [(ngModel)]="billingAddress.street"
+              type="text"
+              placeholder="123 Main St"
+              class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
+            />
+          </label>
+          <div class="grid grid-cols-2 gap-4">
+            <label class="block">
+              <span class="text-gray-600 text-sm">City</span>
+              <input
+                [(ngModel)]="billingAddress.city"
+                type="text"
+                placeholder="City"
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
+              />
+            </label>
+            <label class="block">
+              <span class="text-gray-600 text-sm">Country</span>
+              <input
+                [(ngModel)]="billingAddress.country"
+                type="text"
+                placeholder="Country"
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
+              />
+            </label>
+          </div>
+        </div>
+
         <h3 class="text-xl font-bold mb-4">ORDER SUMMARY</h3>
         <div class="flex justify-between text-gray-600 mb-2">
-          <p>Shipping</p>
-          <p>Free</p>
+          <p>Subtotal ({{ cartItems.length }} items)</p>
+          <p>{{ getSubtotal() | currency }}</p>
+        </div>
+        <div class="flex justify-between text-gray-600 mb-2">
+          <p>Shipping costs</p>
+          <p>FREE!</p>
         </div>
         <div class="flex justify-between text-gray-800 font-bold mb-6">
-          <p>Total</p>
+          <p>Total (incl. VAT)</p>
           <p>{{ getTotal() | currency }}</p>
         </div>
         <button
-          class="w-full bg-[#055EAF] text-white py-3 px-4 rounded-lg hover:bg-[#03329E]">
-          Check Out
+          class="w-full bg-[#055EAF] text-white py-3 px-4 rounded-lg hover:bg-[#03329E]"
+          (click)="checkout()">
+          CHECKOUT
         </button>
       </div>
     </div>
