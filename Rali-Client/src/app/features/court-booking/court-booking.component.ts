@@ -30,22 +30,22 @@ export class CourtBookingComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.sport.name = params['sport'] || 'Sport';
-      this.sport.image = params['image'] || '';
-      this.sport.color = params['color'] || 'bg-gray-200';
-
+      this.sport.name = params['sport'] || this.sport.name;
+      this.sport.image = params['image'] || this.sport.image;
+      this.sport.color = params['color'] || this.sport.color;
+  
       // Generate court options dynamically based on the sport
       const sportInitial = this.sport.name.charAt(0).toUpperCase();
       this.courts = Array.from({ length: 3 }, (_, i) => `${sportInitial}${i + 1}`);
     });
     this.generateCalendar(this.currentMonth);
-  }
+  }  
 
   saveInformation(): void {
     const selectedTime = (document.getElementById('time') as HTMLSelectElement).value;
     const selectedCourt = (document.getElementById('court') as HTMLSelectElement).value;
     const bookingType = this.bookingType;
-
+  
     if (this.selectedDate && selectedTime && selectedCourt) {
       this.router.navigate(['/confirmation'], {
         queryParams: {
@@ -62,6 +62,7 @@ export class CourtBookingComponent implements OnInit {
       alert('Please select a date, time, and court!');
     }
   }
+  
 
   generateCalendar(date: Date): void {
     this.calendarDays = [];
@@ -145,4 +146,9 @@ export class CourtBookingComponent implements OnInit {
   setBookingType(type: string): void {
     this.bookingType = type;
   }
+
+  navigateHome(): void {
+    this.router.navigate(['']);
+  }
+  
 }

@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./store.component.css']
 })
 export class StoreComponent {
-  categories: string[] = ['Football', 'Running', 'Swimming', 'Basketball', 'Judo', 'Volleyball', 'Pingpong'];
+  categories: string[] = ['None', 'Football', 'Running', 'Swimming', 'Basketball', 'Judo', 'Volleyball', 'Pingpong'];
   isDropdownOpen: boolean = false;
   buttonStates: Map<string, boolean> = new Map(); // Track button state for each product
   originalProducts = [
@@ -29,9 +29,13 @@ export class StoreComponent {
   }
 
   filterCategory(category: string): void {
-    this.products = this.originalProducts.filter(product =>
-      product.name.toLowerCase().includes(category.toLowerCase())
-    );
+    if (category === 'None') {
+      this.products = [...this.originalProducts]; // Reset to show all products
+    } else {
+      this.products = this.originalProducts.filter(product =>
+        product.name.toLowerCase().includes(category.toLowerCase())
+      );
+    }
     this.isDropdownOpen = false;
   }
 

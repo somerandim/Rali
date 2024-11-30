@@ -70,7 +70,20 @@ export class CartComponent {
     localStorage.setItem('cart', JSON.stringify(this.cartItems));
   }
 
+  isBillingAddressValid(): boolean {
+    return (
+      this.billingAddress.street.trim() !== '' &&
+      this.billingAddress.city.trim() !== '' &&
+      this.billingAddress.country.trim() !== ''
+    );
+  }
+
   checkout(): void {
+    if (!this.isBillingAddressValid()) {
+      alert('Please fill in all the required billing address fields before proceeding.');
+      return;
+    }
+
     console.log('Checkout initiated with address:', this.billingAddress);
     alert('Checkout complete!');
   }

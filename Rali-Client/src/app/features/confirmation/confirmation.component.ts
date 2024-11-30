@@ -21,7 +21,7 @@ export class ConfirmationComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.subscribe(params => {
       this.sportName = params['sport'] || 'Sport';
       this.sportImage = params['image'] || '';
       this.selectedDate = params['date'] || '';
@@ -31,6 +31,7 @@ export class ConfirmationComponent implements OnInit {
       this.sportColor = params['color'] || 'bg-gray-200';
     });
   }
+  
 
   confirmBooking(): void {
     const bookingDetails = {
@@ -54,4 +55,15 @@ export class ConfirmationComponent implements OnInit {
 
     this.router.navigate(['/cart']);
   }
+
+  navigateBooking(): void {
+    this.router.navigate(['/court-booking'], {
+      queryParams: {
+        sport: this.sportName,
+        image: this.sportImage,
+        color: this.sportColor
+      }
+    });
+  }
+  
 }
