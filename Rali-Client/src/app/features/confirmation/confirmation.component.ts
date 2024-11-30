@@ -35,7 +35,7 @@ export class ConfirmationComponent implements OnInit {
   confirmBooking(): void {
     const bookingDetails = {
       name: `${this.sportName} Booking`,
-      price: 20, // Fixed price; update if dynamic pricing is needed
+      price: 20,
       quantity: 1,
       image: this.sportImage,
       details: {
@@ -52,7 +52,6 @@ export class ConfirmationComponent implements OnInit {
 
     localStorage.setItem('cart', JSON.stringify(cartItems));
 
-    alert('Booking added to cart!');
-    this.router.navigate(['/cart']); // Redirect to the cart page
+    this.router.navigate(['/cart']);
   }
 }

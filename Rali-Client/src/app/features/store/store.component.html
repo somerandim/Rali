@@ -9,123 +9,49 @@
 </head>
 <body class="bg-gray-100">
 
-  <!-- Main Content -->
-  <main class="p-8">
-    <!-- Header Section -->
-    <div class="flex justify-between items-center mb-8">
-      <h2 class="text-3xl font-bold text-[#055EAF]">SHOP YOUR FAVORITE SPORTS PRODUCTS</h2>
-      <!-- Dropdown -->
-      <div class="relative">
-        <button
-          (click)="toggleDropdown()"
-          class="bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E] flex items-center">
-          Category
-          <span class="material-icons ml-2">arrow_drop_down</span>
-        </button>
-        <ul
-          *ngIf="isDropdownOpen"
-          class="absolute bg-white border border-gray-300 rounded-lg shadow-lg mt-2 w-48 z-10">
-          <li
-            *ngFor="let category of categories"
-            (click)="filterCategory(category)"
-            class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-            {{ category }}
-          </li>
-        </ul>
+  <body class="bg-gray-100">
+    <!-- Main Content -->
+    <main class="p-8">
+      <!-- Header Section -->
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-[#055EAF]">SHOP YOUR FAVORITE SPORTS PRODUCTS</h2>
+        <!-- Dropdown -->
+        <div class="relative w-48">
+          <button
+            (click)="toggleDropdown()"
+            class="bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E] flex items-center justify-between w-full">
+            Category
+            <span class="material-icons ml-2">arrow_drop_down</span>
+          </button>
+          <ul
+            *ngIf="isDropdownOpen"
+            class="absolute bg-white border border-gray-300 rounded-lg shadow-lg mt-2 w-full z-10">
+            <li
+              *ngFor="let category of categories"
+              (click)="filterCategory(category)"
+              class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+              {{ category }}
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-
-    <!-- Product Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-      <!-- Product Cards -->
-      <div class="bg-white rounded-lg shadow-lg p-4 text-center">
-        <img src="assets/1.jpg" alt="Basketball" class="w-full h-40 object-contain mb-4">
-        <h3 class="text-lg font-medium text-gray-800">Basketball</h3>
-        <p class="text-gray-600">$40</p>
-        <button
-          class="mt-4 flex items-center justify-center mx-auto bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E]"
-          (click)="addToCart({ name: 'Basketball', price: 40, image: 'assets/1.jpg' })">
-          <span class="material-icons mr-2">shopping_cart</span> Add to Cart
-        </button>
+  
+      <!-- Product Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Product Cards -->
+        <div *ngFor="let product of products" class="bg-white rounded-lg shadow-lg p-4 text-center">
+          <img [src]="product.image" [alt]="product.name" class="w-full h-40 object-contain mb-4">
+          <h3 class="text-lg font-medium text-gray-800">{{ product.name }}</h3>
+          <p class="text-gray-600">${{ product.price }}</p>
+          <button
+            class="mt-4 flex items-center justify-center mx-auto bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E]"
+            (click)="addToCart(product)">
+            <span *ngIf="!isButtonAdded(product.name)" class="material-icons mr-2">shopping_cart</span>
+            <span *ngIf="isButtonAdded(product.name)" class="material-icons mr-2">check_circle</span>
+            {{ isButtonAdded(product.name) ? 'ADDED!' : 'Add to Cart' }}
+          </button>
+        </div>
       </div>
-
-      <div class="bg-white rounded-lg shadow-lg p-4 text-center">
-        <img src="assets/2.jfif" alt="FootBall" class="w-full h-40 object-contain mb-4">
-        <h3 class="text-lg font-medium text-gray-800">FootBall</h3>
-        <p class="text-gray-600">$50</p>
-        <button
-          class="mt-4 flex items-center justify-center mx-auto bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E]"
-          (click)="addToCart({ name: 'FootBall', price: 50, image: 'assets/2.jfif' })">
-          <span class="material-icons mr-2">shopping_cart</span> Add to Cart
-        </button>
-      </div>
-
-      <div class="bg-white rounded-lg shadow-lg p-4 text-center">
-        <img src="assets/3.jpg" alt="Judo Headgear" class="w-full h-40 object-contain mb-4">
-        <h3 class="text-lg font-medium text-gray-800">Judo Headgear</h3>
-        <p class="text-gray-600">$25</p>
-        <button
-          class="mt-4 flex items-center justify-center mx-auto bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E]"
-          (click)="addToCart({ name: 'Judo Headgear', price: 25, image: 'assets/3.jpg' })">
-          <span class="material-icons mr-2">shopping_cart</span> Add to Cart
-        </button>
-      </div>
-
-      <div class="bg-white rounded-lg shadow-lg p-4 text-center">
-        <img src="assets/4.png" alt="Table Tennis Paddle" class="w-full h-40 object-contain mb-4">
-        <h3 class="text-lg font-medium text-gray-800">Table Tennis Paddle</h3>
-        <p class="text-gray-600">$55</p>
-        <button
-          class="mt-4 flex items-center justify-center mx-auto bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E]"
-          (click)="addToCart({ name: 'Table Tennis Paddle', price: 55, image: 'assets/4.png' })">
-          <span class="material-icons mr-2">shopping_cart</span> Add to Cart
-        </button>
-      </div>
-
-      <div class="bg-white rounded-lg shadow-lg p-4 text-center">
-        <img src="assets/5.jpg" alt="Running Sweat Band" class="w-full h-40 object-contain mb-4">
-        <h3 class="text-lg font-medium text-gray-800">Running Sweat Band</h3>
-        <p class="text-gray-600">$5</p>
-        <button
-          class="mt-4 flex items-center justify-center mx-auto bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E]"
-          (click)="addToCart({ name: 'Running Sweat Band', price: 5, image: 'assets/5.jpg' })">
-          <span class="material-icons mr-2">shopping_cart</span> Add to Cart
-        </button>
-      </div>
-
-      <div class="bg-white rounded-lg shadow-lg p-4 text-center">
-        <img src="assets/6.png" alt="Swimming Goggles" class="w-full h-40 object-contain mb-4">
-        <h3 class="text-lg font-medium text-gray-800">Swimming Goggles</h3>
-        <p class="text-gray-600">$15</p>
-        <button
-          class="mt-4 flex items-center justify-center mx-auto bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E]"
-          (click)="addToCart({ name: 'Swimming Goggles', price: 15, image: 'assets/6.png' })">
-          <span class="material-icons mr-2">shopping_cart</span> Add to Cart
-        </button>
-      </div>
-
-      <div class="bg-white rounded-lg shadow-lg p-4 text-center">
-        <img src="assets/7.png" alt="Volleyball" class="w-full h-40 object-contain mb-4">
-        <h3 class="text-lg font-medium text-gray-800">Volleyball</h3>
-        <p class="text-gray-600">$20</p>
-        <button
-          class="mt-4 flex items-center justify-center mx-auto bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E]"
-          (click)="addToCart({ name: 'Volleyball', price: 20, image: 'assets/7.png' })">
-          <span class="material-icons mr-2">shopping_cart</span> Add to Cart
-        </button>
-      </div>
-
-      <div class="bg-white rounded-lg shadow-lg p-4 text-center">
-        <img src="assets/8.jfif" alt="FootBall" class="w-full h-40 object-contain mb-4">
-        <h3 class="text-lg font-medium text-gray-800">FootBall</h3>
-        <p class="text-gray-600">$45</p>
-        <button
-          class="mt-4 flex items-center justify-center mx-auto bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E]"
-          (click)="addToCart({ name: 'FootBall', price: 45, image: 'assets/8.jfif' })">
-          <span class="material-icons mr-2">shopping_cart</span> Add to Cart
-        </button>
-      </div>
-    </div>
-  </main>
-</body>
-</html>
+    </main>
+  </body>
+  
