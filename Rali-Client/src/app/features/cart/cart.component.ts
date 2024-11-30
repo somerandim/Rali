@@ -7,6 +7,12 @@ interface CartItem {
   price: number;
   quantity: number;
   image: string;
+  details?: {
+    date: string;
+    time: string;
+    court: string;
+    type: string;
+  };
 }
 
 interface BillingAddress {
@@ -48,16 +54,16 @@ export class CartComponent {
   }
 
   removeItem(index: number): void {
-    this.cartItems.splice(index, 1); // Remove item
+    this.cartItems.splice(index, 1);
     this.saveCart();
   }
 
   getSubtotal(): number {
-    return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    return this.cartItems.reduce((total, item) => total + item.price * (item.quantity || 1), 0);
   }
 
   getTotal(): number {
-    return this.getSubtotal(); // Add additional tax/discount logic if needed
+    return this.getSubtotal();
   }
 
   saveCart(): void {

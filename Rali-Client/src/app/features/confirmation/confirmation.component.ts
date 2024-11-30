@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, NgClass } from '@angular/common';
 
 @Component({
@@ -7,7 +7,7 @@ import { DatePipe, NgClass } from '@angular/common';
   standalone: true,
   imports: [DatePipe, NgClass],
   templateUrl: './confirmation.component.html',
-  styleUrls: ['./confirmation.component.css']
+  styleUrls: ['./confirmation.component.css'],
 })
 export class ConfirmationComponent implements OnInit {
   sportName: string = '';
@@ -17,11 +17,11 @@ export class ConfirmationComponent implements OnInit {
   selectedCourt: string = '';
   bookingType: string = '';
   sportColor: string = 'bg-gray-200';
-  
-  constructor(private route: ActivatedRoute) {}
+
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.sportName = params['sport'] || 'Sport';
       this.sportImage = params['image'] || '';
       this.selectedDate = params['date'] || '';
@@ -30,5 +30,29 @@ export class ConfirmationComponent implements OnInit {
       this.bookingType = params['type'] || 'Private';
       this.sportColor = params['color'] || 'bg-gray-200';
     });
+  }
+
+  confirmBooking(): void {
+    const bookingDetails = {
+      name: `${this.sportName} Booking`,
+      price: 20, // Fixed price; update if dynamic pricing is needed
+      quantity: 1,
+      image: this.sportImage,
+      details: {
+        date: this.selectedDate,
+        time: this.selectedTime,
+        court: this.selectedCourt,
+        type: this.bookingType,
+      },
+    };
+
+    const storedCart = localStorage.getItem('cart');
+    const cartItems = storedCart ? JSON.parse(storedCart) : [];
+    cartItems.push(bookingDetails);
+
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+
+    alert('Booking added to cart!');
+    this.router.navigate(['/cart']); // Redirect to the cart page
   }
 }

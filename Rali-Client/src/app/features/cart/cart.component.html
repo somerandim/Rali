@@ -23,9 +23,15 @@
           <!-- Item Details -->
           <div class="ml-6 flex-1">
             <h3 class="text-lg font-bold text-gray-800">{{ item.name }}</h3>
-            
+            <div *ngIf="item.details" class="text-sm text-gray-600">
+                <p>Date: {{ item.details.date | date: 'shortDate' }}</p>
+              <p>Time: {{ item.details.time }}</p>
+              <p>Court: {{ item.details.court }}</p>
+              <p>Type: {{ item.details.type }}</p>
+            </div>
+
             <!-- Quantity Selector -->
-            <div class="flex items-center mt-4">
+            <div *ngIf="!item.details" class="flex items-center mt-4">
               <button
                 class="bg-gray-200 text-gray-800 px-2 py-1 rounded-md"
                 (click)="decrementQuantity(i)">
@@ -92,10 +98,6 @@
         <div class="flex justify-between text-gray-600 mb-2">
           <p>Subtotal ({{ cartItems.length }} items)</p>
           <p>{{ getSubtotal() | currency }}</p>
-        </div>
-        <div class="flex justify-between text-gray-600 mb-2">
-          <p>Shipping costs</p>
-          <p>FREE!</p>
         </div>
         <div class="flex justify-between text-gray-800 font-bold mb-6">
           <p>Total (incl. VAT)</p>
