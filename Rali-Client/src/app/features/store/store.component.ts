@@ -28,4 +28,19 @@ export class StoreComponent {
     // Add your filtering logic here
     this.isDropdownOpen = false; // Close dropdown after selecting a category
   }
+
+  addToCart(product: any): void {
+    const cart = localStorage.getItem('cart');
+    const cartItems = cart ? JSON.parse(cart) : [];
+  
+    const existingItemIndex = cartItems.findIndex((item: any) => item.name === product.name);
+    if (existingItemIndex > -1) {
+      cartItems[existingItemIndex].quantity++;
+    } else {
+      cartItems.push({ ...product, quantity: 1 });
+    }
+  
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }
+  
 }
