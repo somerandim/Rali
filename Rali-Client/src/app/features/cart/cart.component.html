@@ -1,0 +1,110 @@
+<body class="bg-gray-100">
+    <main class="p-8">
+      <!-- Header -->
+      <h2 class="text-3xl font-bold text-[#055EAF] mb-6">SHOPPING CART</h2>
+  
+      <div class="flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-8">
+        <!-- Cart Items -->
+        <div class="w-full lg:w-2/3 bg-white rounded-lg shadow-lg p-6 space-y-6">
+          <div *ngFor="let item of cartItems; let i = index" class="flex items-start border-b pb-4">
+            <!-- Product Image -->
+            <div class="w-24 h-24">
+              <img [src]="item.image" alt="{{ item.name }}" class="w-full h-full object-contain">
+            </div>
+  
+            <!-- Item Details -->
+            <div class="ml-6 flex-1">
+              <h3 class="text-lg font-bold text-gray-800">{{ item.name }}</h3>
+              <div *ngIf="item.details" class="text-sm text-gray-600">
+                <p>Date: {{ item.details.date | date: 'shortDate' }}</p>
+                <p>Time: {{ item.details.time }}</p>
+                <p>Court: {{ item.details.court }}</p>
+                <p>Type: {{ item.details.type }}</p>
+              </div>
+  
+              <!-- Quantity Selector -->
+              <div *ngIf="!item.details" class="flex items-center mt-4">
+                <button
+                  class="bg-gray-200 text-gray-800 px-2 py-1 rounded-md"
+                  (click)="decrementQuantity(i)">
+                  -
+                </button>
+                <span class="mx-4">{{ item.quantity }}</span>
+                <button
+                  class="bg-gray-200 text-gray-800 px-2 py-1 rounded-md"
+                  (click)="incrementQuantity(i)">
+                  +
+                </button>
+              </div>
+            </div>
+  
+            <!-- Price and Remove -->
+            <div class="text-right">
+              <p class="text-gray-800 font-bold">{{ item.price | currency }}</p>
+              <button
+                class="text-gray-500 hover:text-red-500 mt-2"
+                (click)="removeItem(i)">
+                ✕
+              </button>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Order Summary -->
+        <div class="w-full lg:w-1/3 bg-white rounded-lg shadow-lg p-6">
+          <!-- Billing Address -->
+          <h3 class="text-xl font-bold mb-4">Billing Address</h3>
+          <div class="space-y-4 mb-6">
+            <label class="block">
+              <span class="text-gray-600 text-sm">Street Address</span>
+              <input
+                [(ngModel)]="billingAddress.street"
+                type="text"
+                placeholder="123 Main St"
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
+                [ngClass]="{'border-red-500': billingAddress.street.trim() === ''}"
+              />
+            </label>
+            <div class="grid grid-cols-2 gap-4">
+              <label class="block">
+                <span class="text-gray-600 text-sm">City</span>
+                <input
+                  [(ngModel)]="billingAddress.city"
+                  type="text"
+                  placeholder="City"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
+                  [ngClass]="{'border-red-500': billingAddress.city.trim() === ''}"
+                />
+              </label>
+              <label class="block">
+                <span class="text-gray-600 text-sm">Country</span>
+                <input
+                  [(ngModel)]="billingAddress.country"
+                  type="text"
+                  placeholder="Country"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
+                  [ngClass]="{'border-red-500': billingAddress.country.trim() === ''}"
+                />
+              </label>
+            </div>
+          </div>
+  
+          <h3 class="text-xl font-bold mb-4">ORDER SUMMARY</h3>
+          <div class="flex justify-between text-gray-600 mb-2">
+            <p>Subtotal ({{ cartItems.length }} items)</p>
+            <p>{{ getSubtotal() | currency }}</p>
+          </div>
+          <div class="flex justify-between text-gray-800 font-bold mb-6">
+            <p>Total (incl. VAT)</p>
+            <p>{{ getTotal() | currency }}</p>
+          </div>
+          <button
+            class="w-full bg-[#055EAF] text-white py-3 px-4 rounded-lg hover:bg-[#03329E]"
+            (click)="checkout()">
+            CHECKOUT
+          </button>
+        </div>
+      </div>
+    </main>
+  </body>
+  
