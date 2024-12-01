@@ -31,7 +31,6 @@ export class ConfirmationComponent implements OnInit {
       this.sportColor = params['color'] || 'bg-gray-200';
     });
   }
-  
 
   confirmBooking(): void {
     const bookingDetails = {
