@@ -5,11 +5,15 @@
             <img src="assets/logo.png" alt="Rali Sports Center" class="h-10 w-10">
             <h1 class="text-lg font-bold">Rali Sports Center</h1>
         </div>
-        <input 
-            type="text" 
-            placeholder="Search..." 
-            class="ml-64 rounded-full px-4 py-1 text-black w-80 outline-none"
-        >
+
+      <!-- Search Bar -->
+      <input 
+        type="text" 
+        placeholder="Search..." 
+        class="ml-64 rounded-full px-4 py-1 text-black w-80 outline-none"
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange()"
+      >
     </div>
     <div class="flex items-center space-x-6">
         <a href="" class="hover:underline">HOME</a>
@@ -17,4 +21,4 @@
         <a href="cart" class="hover:underline">CART</a>
         <a href="signup" class="hover:underline">PROFILE</a>
     </div>
-</nav>
+</nav>  

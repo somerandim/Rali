@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SearchService } from '../search.service';
 
 @Component({
   selector: 'app-store',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './store.component.html',
-  styleUrls: ['./store.component.css']
+  styleUrls: ['./store.component.css'],
 })
-export class StoreComponent {
+export class StoreComponent implements OnInit {
   categories: string[] = ['None', 'Football', 'Running', 'Swimming', 'Basketball', 'Judo', 'Volleyball', 'Pingpong'];
   isDropdownOpen: boolean = false;
   buttonStates: Map<string, boolean> = new Map(); // Track button state for each product
@@ -20,9 +21,19 @@ export class StoreComponent {
     { name: 'Running Sweat Band', price: 5, image: 'assets/5.jpg' },
     { name: 'Swimming Goggles', price: 15, image: 'assets/6.png' },
     { name: 'Volleyball', price: 20, image: 'assets/7.png' },
-    { name: 'FootBall', price: 45, image: 'assets/8.jfif' }
+    { name: 'FootBall', price: 45, image: 'assets/8.jfif' },
   ];
   products = [...this.originalProducts]; // Displayed products (filtered or not)
+
+
+  constructor(private searchService: SearchService) {}
+  
+  ngOnInit(): void {
+    // Subscribe to the search query
+    this.searchService.searchQuery$.subscribe(query => {
+      this.filterBySearch(query);
+    });
+  }
 
   toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -37,6 +48,16 @@ export class StoreComponent {
       );
     }
     this.isDropdownOpen = false;
+  }
+
+  filterBySearch(query: string): void {
+    if (query.trim() === '') {
+      this.products = [...this.originalProducts];
+    } else {
+      this.products = this.originalProducts.filter(product =>
+        product.name.toLowerCase().includes(query.toLowerCase())
+      );
+    }
   }
 
   addToCart(product: any): void {
