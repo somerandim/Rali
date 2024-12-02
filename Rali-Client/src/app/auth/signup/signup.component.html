@@ -38,29 +38,29 @@
           <h2 class="text-2xl font-semibold" style="color: #055EAF;">Rali Sports Center</h2>
           <p class="text-gray-500">Sign Up For an Account</p>
         </div>
-        <form id="signupForm" method="POST">
+        <form id="signupForm" #addForm="ngForm" (ngSubmit)="onSignup(addForm)">
           <!-- First Name -->
           <div class="mb-4">
             <label for="first-name" class="block text-sm font-medium text-gray-700">First Name</label>
-            <input type="text" id="first-name" name="first-name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="John" required>
+            <input type="text" id="firstname" ngModel name="firstName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="John" required>
           </div>
           <!-- Last Name -->
           <div class="mb-4">
             <label for="last-name" class="block text-sm font-medium text-gray-700">Last Name</label>
-            <input type="text" id="last-name" name="last-name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Doe" required>
+            <input type="text" id="lastname" ngModel name="lastName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Doe" required>
           </div>
           <!-- Email -->
           <div class="mb-4">
             <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-            <input type="email" id="email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="john.doe@gmail.com" required>
+            <input type="email" id="email" ngModel name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="john.doe@gmail.com" required>
           </div>
           <!-- Password -->
           <div class="mb-4">
             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-            <input type="password" id="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="********" required>
+            <input type="password" id="password" ngModel name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="********" required>
           </div>
           <!-- Sign Up button with hover effect -->
-          <button type="submit" class="w-full text-white py-2 rounded-md focus:outline-none" style="background-color: #055EAF; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#05499C'" onmouseout="this.style.backgroundColor='#055EAF'">Sign Up</button>
+          <button  type="submit" class="w-full text-white py-2 rounded-md focus:outline-none" style="background-color: #055EAF; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#05499C'" onmouseout="this.style.backgroundColor='#055EAF'">Sign Up</button>
         </form>
         <p class="mt-6 text-center text-sm text-gray-600">
           Already have an account? <a href="login" aria-label="Log in link" class="text-blue-600 hover:underline">Log In</a>
