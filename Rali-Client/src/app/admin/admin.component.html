@@ -1,0 +1,31 @@
+<!-- Add Product Form -->
+<form #addProductForm="ngForm" (ngSubmit)="onAddProduct(addProductForm)">
+    <input type="text" ngmodel name="name" placeholder="Product Name" required />
+    <input type="number" ngmodel name="quantity" placeholder="Quantity" required />
+    <input type="text" ngmodel name="image" placeholder="Image URL" />
+    <input type="number" ngmodel name="price" placeholder="Price" required />
+    <textarea ngmodel name="description" placeholder="Description"></textarea>
+    <button type="submit">Add Product</button>
+</form>
+
+<!-- Add Category Form -->
+<form #addCategoryForm="ngForm" (ngSubmit)="onAddCategory(addCategoryForm)">
+    <input type="text" ngmodel name="name" placeholder="Category Name" required />
+    <button type="submit">Add Category</button>
+</form>
+
+<!-- Add Venue Form -->
+<form #addVenueForm="ngForm" (ngSubmit)="onAddVenue(addVenueForm)">
+    <input type="text" ngmodel name="name" placeholder="Venue Name" required />
+    <input type="checkbox" ngmodel name="availability" /> Available
+    <input type="number" ngmodel name="price" placeholder="Price" required />
+    <button type="submit">Add Venue</button>
+</form>
+
+<!-- Add Activity Form -->
+<form #addActivityForm="ngForm" (ngSubmit)="onAddActivity(addActivityForm)">
+    <input type="text" ngmodel name="name" placeholder="Activity Name" required />
+    <textarea ngmodel name="description" placeholder="Description"></textarea>
+    <input type="number" ngmodel name="maxUsers" placeholder="Max Users" required />
+    <button type="submit">Add Activity</button>
+</form>
