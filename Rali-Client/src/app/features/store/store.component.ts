@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchService } from '../search.service';
+import { ProductComponent } from '../../shared/product/product.component';
 
 @Component({
   selector: 'app-store',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProductComponent],
   templateUrl: './store.component.html',
   styleUrls: ['./store.component.css'],
 })
 export class StoreComponent implements OnInit {
   categories: string[] = ['None', 'Football', 'Running', 'Swimming', 'Basketball', 'Judo', 'Volleyball', 'Pingpong'];
   isDropdownOpen: boolean = false;
-  buttonStates: Map<string, boolean> = new Map(); // Track button state for each product
+  
   originalProducts = [
     { name: 'Basketball', price: 40, image: 'assets/1.jpg' },
     { name: 'FootBall', price: 50, image: 'assets/2.jfif' },
@@ -60,27 +61,4 @@ export class StoreComponent implements OnInit {
     }
   }
 
-  addToCart(product: any): void {
-    const cart = localStorage.getItem('cart');
-    const cartItems = cart ? JSON.parse(cart) : [];
-    const existingItemIndex = cartItems.findIndex((item: any) => item.name === product.name);
-
-    if (existingItemIndex > -1) {
-      cartItems[existingItemIndex].quantity++;
-    } else {
-      cartItems.push({ ...product, quantity: 1 });
-    }
-
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-
-    // Temporarily change button text
-    this.buttonStates.set(product.name, true); // Set to "ADDED!"
-    setTimeout(() => {
-      this.buttonStates.set(product.name, false); // Revert after 2 seconds
-    }, 2000);
-  }
-
-  isButtonAdded(productName: string): boolean {
-    return this.buttonStates.get(productName) || false; // Default to false if no state exists
-  }
 }
