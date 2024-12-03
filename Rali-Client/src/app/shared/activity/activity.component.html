@@ -1,0 +1,10 @@
+<a
+[routerLink]="['/court-booking']"
+[queryParams]="{ sport: activity.name, image: activity.image, color: activity.color }"
+class="block"
+>
+<div class="relative w-full h-60 text-white rounded-lg overflow-hidden shadow-lg" [ngClass]="activity.color">
+  <img [src]="activity.image" [alt]="activity.name" class="w-full h-full object-cover">
+  <h3 class="absolute top-4 left-4 text-xl font-semibold z-10">{{ activity.name }}</h3>
+</div>
+</a>
