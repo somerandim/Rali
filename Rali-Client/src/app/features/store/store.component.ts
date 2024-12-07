@@ -1,17 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SearchService } from '../search.service';
+import { ProductComponent } from '../../shared/product/product.component';
 
 @Component({
   selector: 'app-store',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProductComponent],
   templateUrl: './store.component.html',
-  styleUrls: ['./store.component.css']
+  styleUrls: ['./store.component.css'],
 })
-export class StoreComponent {
+export class StoreComponent implements OnInit {
   categories: string[] = ['None', 'Football', 'Running', 'Swimming', 'Basketball', 'Judo', 'Volleyball', 'Pingpong'];
   isDropdownOpen: boolean = false;
-  buttonStates: Map<string, boolean> = new Map(); // Track button state for each product
+  
   originalProducts = [
     { name: 'Basketball', price: 40, image: 'assets/1.jpg' },
     { name: 'FootBall', price: 50, image: 'assets/2.jfif' },
@@ -20,9 +22,19 @@ export class StoreComponent {
     { name: 'Running Sweat Band', price: 5, image: 'assets/5.jpg' },
     { name: 'Swimming Goggles', price: 15, image: 'assets/6.png' },
     { name: 'Volleyball', price: 20, image: 'assets/7.png' },
-    { name: 'FootBall', price: 45, image: 'assets/8.jfif' }
+    { name: 'FootBall', price: 45, image: 'assets/8.jfif' },
   ];
   products = [...this.originalProducts]; // Displayed products (filtered or not)
+
+
+  constructor(private searchService: SearchService) {}
+  
+  ngOnInit(): void {
+    // Subscribe to the search query
+    this.searchService.searchQuery$.subscribe(query => {
+      this.filterBySearch(query);
+    });
+  }
 
   toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -39,27 +51,14 @@ export class StoreComponent {
     this.isDropdownOpen = false;
   }
 
-  addToCart(product: any): void {
-    const cart = localStorage.getItem('cart');
-    const cartItems = cart ? JSON.parse(cart) : [];
-    const existingItemIndex = cartItems.findIndex((item: any) => item.name === product.name);
-
-    if (existingItemIndex > -1) {
-      cartItems[existingItemIndex].quantity++;
+  filterBySearch(query: string): void {
+    if (query.trim() === '') {
+      this.products = [...this.originalProducts];
     } else {
-      cartItems.push({ ...product, quantity: 1 });
+      this.products = this.originalProducts.filter(product =>
+        product.name.toLowerCase().includes(query.toLowerCase())
+      );
     }
-
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-
-    // Temporarily change button text
-    this.buttonStates.set(product.name, true); // Set to "ADDED!"
-    setTimeout(() => {
-      this.buttonStates.set(product.name, false); // Revert after 2 seconds
-    }, 2000);
   }
 
-  isButtonAdded(productName: string): boolean {
-    return this.buttonStates.get(productName) || false; // Default to false if no state exists
-  }
 }

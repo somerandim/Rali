@@ -6,6 +6,7 @@ import { CourtBookingComponent } from './features/court-booking/court-booking.co
 import { ConfirmationComponent } from './features/confirmation/confirmation.component';
 import { StoreComponent } from './features/store/store.component';
 import { CartComponent } from './features/cart/cart.component';
+import { ProfileComponent } from './auth/profile/profile.component';
 
 export const routes: Routes = [
     { path: 'signup', component: SignupComponent },
@@ -14,5 +15,6 @@ export const routes: Routes = [
     {path: 'court-booking', component: CourtBookingComponent},
     { path: 'confirmation', component: ConfirmationComponent },
     { path: 'store', component: StoreComponent},
-    {path: 'cart', component: CartComponent}
+    {path: 'cart', component: CartComponent},
+    { path: 'profile', component: ProfileComponent },
 ];

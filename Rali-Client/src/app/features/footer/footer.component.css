@@ -1,0 +1,18 @@
+footer {
+    background-color: #055EAF; /* Match your website's primary color */
+    color: white;
+  }
+  
+  footer a {
+    color: inherit; /* Ensure links inherit the text color */
+    text-decoration: none;
+  }
+  
+  footer a:hover {
+    text-decoration: underline;
+  }
+  
+  .material-icons {
+    font-size: 20px;
+  }
+  
