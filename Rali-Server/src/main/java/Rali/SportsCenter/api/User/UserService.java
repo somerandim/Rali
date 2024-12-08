@@ -39,4 +39,10 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepo.deleteById(id);
     }
+
+    public UserDataModel findByEmail(String email) {
+        return userRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+    }
+    
 }
