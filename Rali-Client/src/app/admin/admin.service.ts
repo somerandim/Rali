@@ -14,7 +14,7 @@ export class AdminService {
  
  
  
-    private apiServerUrl = 'http://localhost:8080/admin';
+    private apiServerUrl = 'http://localhost:8080';
   
     constructor(private httpclient: HttpClient) {}
   

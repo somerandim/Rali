@@ -1,31 +1,131 @@
-<!-- Add Product Form -->
-<form #addProductForm="ngForm" (ngSubmit)="onAddProduct(addProductForm)">
-    <input type="text" ngmodel name="name" placeholder="Product Name" required />
-    <input type="number" ngmodel name="quantity" placeholder="Quantity" required />
-    <input type="text" ngmodel name="image" placeholder="Image URL" />
-    <input type="number" ngmodel name="price" placeholder="Price" required />
-    <textarea ngmodel name="description" placeholder="Description"></textarea>
-    <button type="submit">Add Product</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <main class="w-full max-w-7xl mx-auto p-8">
+    <h2 class="text-3xl font-bold text-center mb-8" style="color: #055EAF;">Admin Management Dashboard</h2>
 
-<!-- Add Category Form -->
-<form #addCategoryForm="ngForm" (ngSubmit)="onAddCategory(addCategoryForm)">
-    <input type="text" ngmodel name="name" placeholder="Category Name" required />
-    <button type="submit">Add Category</button>
-</form>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
 
-<!-- Add Venue Form -->
-<form #addVenueForm="ngForm" (ngSubmit)="onAddVenue(addVenueForm)">
-    <input type="text" ngmodel name="name" placeholder="Venue Name" required />
-    <input type="checkbox" ngmodel name="availability" /> Available
-    <input type="number" ngmodel name="price" placeholder="Price" required />
-    <button type="submit">Add Venue</button>
-</form>
+      <!-- Add Product Form -->
+      <div class="bg-white shadow-md rounded-lg p-8">
+        <h3 class="text-xl font-semibold mb-6" style="color: #055EAF;">Add Product</h3>
+        <form #productForm="ngForm" (ngSubmit)="onSubmitProduct(productForm)">
+          <div class="mb-4">
+            <label for="productName" class="block text-sm font-medium text-gray-700">Product Name</label>
+            <input type="text" id="productName" name="productName" ngModel class="input-field" placeholder="Enter product name" required>
+          </div>
+          <div class="mb-4">
+            <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
+            <input type="number" id="quantity" name="quantity" ngModel class="input-field" placeholder="Enter quantity" required>
+          </div>
+          <div class="mb-4">
+            <label for="image" class="block text-sm font-medium text-gray-700">Image URL</label>
+            <input type="url" id="image" name="image" ngModel class="input-field" placeholder="Enter image URL">
+          </div>
+          <div class="mb-4">
+            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+            <input type="number" id="price" name="price" ngModel class="input-field" placeholder="Enter price" required>
+          </div>
+          <div class="mb-4">
+            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea id="description" name="description" rows="4" ngModel class="input-field" placeholder="Enter product description"></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Add Product</button>
+        </form>
+      </div>
 
-<!-- Add Activity Form -->
-<form #addActivityForm="ngForm" (ngSubmit)="onAddActivity(addActivityForm)">
-    <input type="text" ngmodel name="name" placeholder="Activity Name" required />
-    <textarea ngmodel name="description" placeholder="Description"></textarea>
-    <input type="number" ngmodel name="maxUsers" placeholder="Max Users" required />
-    <button type="submit">Add Activity</button>
-</form>
+      <!-- Add Category Form -->
+      <div class="bg-white shadow-md rounded-lg p-8">
+        <h3 class="text-xl font-semibold mb-6" style="color: #055EAF;">Add Category</h3>
+        <form #categoryForm="ngForm" (ngSubmit)="onSubmitCategory(categoryForm)">
+          <div class="mb-4">
+            <label for="categoryName" class="block text-sm font-medium text-gray-700">Category Name</label>
+            <input type="text" id="categoryName" name="categoryName" ngModel class="input-field" placeholder="Enter category name" required>
+          </div>
+          <button type="submit" class="submit-btn">Add Category</button>
+        </form>
+      </div>
+
+      <!-- Add Venue Form -->
+      <div class="bg-white shadow-md rounded-lg p-8">
+        <h3 class="text-xl font-semibold mb-6" style="color: #055EAF;">Add Venue</h3>
+        <form #venueForm="ngForm" (ngSubmit)="onSubmitVenue(venueForm)">
+          <div class="mb-4">
+            <label for="venueName" class="block text-sm font-medium text-gray-700">Venue Name</label>
+            <input type="text" id="venueName" name="venueName" ngModel class="input-field" placeholder="Enter venue name" required>
+          </div>
+          <div class="mb-4 flex items-center">
+            <input type="checkbox" id="availability" name="availability" ngModel class="mr-2">
+            <label for="availability" class="text-sm text-gray-700">Available</label>
+          </div>
+          <div class="mb-4">
+            <label for="venuePrice" class="block text-sm font-medium text-gray-700">Price</label>
+            <input type="number" id="venuePrice" name="venuePrice" ngModel class="input-field" placeholder="Enter venue price" required>
+          </div>
+          <button type="submit" class="submit-btn">Add Venue</button>
+        </form>
+      </div>
+
+      <!-- Add Activity Form -->
+      <div class="bg-white shadow-md rounded-lg p-8">
+        <h3 class="text-xl font-semibold mb-6" style="color: #055EAF;">Add Activity</h3>
+        <form #activityForm="ngForm" (ngSubmit)="onSubmitActivity(activityForm)">
+          <div class="mb-4">
+            <label for="activityName" class="block text-sm font-medium text-gray-700">Activity Name</label>
+            <input type="text" id="activityName" name="activityName" ngModel class="input-field" placeholder="Enter activity name" required>
+          </div>
+          <div class="mb-4">
+            <label for="activityDescription" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea id="activityDescription" name="activityDescription" rows="4" ngModel class="input-field" placeholder="Enter activity description"></textarea>
+          </div>
+          <div class="mb-4">
+            <label for="maxUsers" class="block text-sm font-medium text-gray-700">Max Users</label>
+            <input type="number" id="maxUsers" name="maxUsers" ngModel class="input-field" placeholder="Enter maximum users" required>
+          </div>
+          <button type="submit" class="submit-btn">Add Activity</button>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <style>
+    .input-field {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #D1D5DB;
+      border-radius: 0.375rem;
+      transition: border-color 0.3s;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: #055EAF;
+      box-shadow: 0 0 0 2px rgba(5, 94, 175, 0.5);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: #055EAF;
+      color: white;
+      padding: 0.75rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+      background-color: #05499C;
+    }
+  </style>
+</body>
+</html>

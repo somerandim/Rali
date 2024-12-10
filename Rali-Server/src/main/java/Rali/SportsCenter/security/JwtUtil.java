@@ -8,39 +8,50 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class JwtUtil {
 
-    // Secret key for token signing
     private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+    // Token blacklist (in-memory, replace with Redis or database in production)
+    private final ConcurrentHashMap<String, Long> tokenBlacklist = new ConcurrentHashMap<>();
 
     /**
      * Generate JWT Token
-     * @param email - User email as payload
-     * @return Generated JWT Token
      */
     public String generateToken(String email) {
         return Jwts.builder()
-                .setSubject(email)  // Set token payload (email)
-                .setIssuedAt(new Date())  // Token creation date
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))  // 1-hour expiration
-                .signWith(SECRET_KEY)  // Sign the token
-                .compact();  // Build and return the token
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))  // 1 hour expiration
+                .signWith(SECRET_KEY)
+                .compact();
     }
 
     /**
      * Validate and Extract Email from Token
-     * @param token - JWT token received from the client
-     * @return Extracted email if the token is valid
      */
     public String validateToken(String token) {
+        // Check if token is blacklisted
+        if (tokenBlacklist.containsKey(token)) {
+            throw new RuntimeException("Token has been invalidated!");
+        }
+
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)  // Validate with the same secret key
+                .setSigningKey(SECRET_KEY)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
 
-        return claims.getSubject();  // Extract the email from the payload
+        return claims.getSubject();
+    }
+
+    /**
+     * Blacklist the Token
+     */
+    public void invalidateToken(String token) {
+        tokenBlacklist.put(token, System.currentTimeMillis());
     }
 }

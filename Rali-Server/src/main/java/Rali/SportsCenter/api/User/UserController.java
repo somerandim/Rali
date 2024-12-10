@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user")    
@@ -15,10 +16,26 @@ public class UserController {
 
     private final UserService userService;
     private final JwtUtil jwtUtil;
+     
 
     public UserController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, String>> logout(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return new ResponseEntity<>(Map.of("message", "Authorization header is missing!"), HttpStatus.UNAUTHORIZED);
+        }
+    
+        String token = authHeader.substring(7); // Extract token
+    
+        // Invalidate token (e.g., add to blacklist)
+        jwtUtil.invalidateToken(token);
+    
+        // Return a JSON response
+        return new ResponseEntity<>(Map.of("message", "Logout successful. Token invalidated!"), HttpStatus.OK);
     }
 
     /**
@@ -52,10 +69,44 @@ public class UserController {
      * Update user information
      */
     @PutMapping("/update")
-    public ResponseEntity<UserDataModel> updateUser(@RequestBody UserDataModel user) {
-        UserDataModel updatedUser = userService.updateUser(user);
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+public ResponseEntity<UserDataModel> updateUser(
+        @RequestHeader("Authorization") String authHeader,
+        @RequestBody UserDataModel userUpdateRequest) {
+
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
+
+    String token = authHeader.substring(7);  // Extract the token
+
+    // Validate the token and get the associated email
+    String email = jwtUtil.validateToken(token);
+
+    // Find the user associated with the email
+    UserDataModel existingUser = userService.findByEmail(email);
+
+    // Update only the non-null fields provided in the request
+    if (userUpdateRequest.getFirstName() != null) {
+        existingUser.setFirstName(userUpdateRequest.getFirstName());
+    }
+    if (userUpdateRequest.getLastName() != null) {
+        existingUser.setLastName(userUpdateRequest.getLastName());
+    }
+    if (userUpdateRequest.getPhoneNumber() != null) {
+        existingUser.setPhoneNumber(userUpdateRequest.getPhoneNumber());
+    }
+    if (userUpdateRequest.getPassword() != null) {
+        existingUser.setPassword(userUpdateRequest.getPassword());
+    }
+    if (userUpdateRequest.getUsername() != null) {
+        existingUser.setUsername(userUpdateRequest.getUsername());
+    }
+
+    // Save the updated user
+    UserDataModel updatedUser = userService.updateUser(existingUser);
+
+    return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+}
 
     /**
      * Delete a user by ID

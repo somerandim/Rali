@@ -7,41 +7,52 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100">
+  <main class="p-8">
+    
+    <!-- Header Section -->
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-3xl font-bold text-[#055EAF]">SHOP YOUR FAVORITE SPORTS PRODUCTS</h2>
 
-  <body class="bg-gray-100">
-    <!-- Main Content -->
-    <main class="p-8">
-      <!-- Header Section -->
-      <div class="flex justify-between items-center mb-8">
-        <h2 class="text-3xl font-bold text-[#055EAF]">SHOP YOUR FAVORITE SPORTS PRODUCTS</h2>
-        <!-- Dropdown -->
-        <div class="relative w-48">
-          <button
-            (click)="toggleDropdown()"
-            class="bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E] flex items-center justify-between w-full">
-            Category
-            <span class="material-icons ml-2">arrow_drop_down</span>
-          </button>
-          <ul
-            *ngIf="isDropdownOpen"
-            class="absolute bg-white border border-gray-300 rounded-lg shadow-lg mt-2 w-full z-10">
-            <li
-              *ngFor="let category of categories"
-              (click)="filterCategory(category)"
-              class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-              {{ category }}
-            </li>
-          </ul>
-        </div>
-      </div>
+      <!-- Category Dropdown -->
+      <div class="relative w-48">
+        <button
+          (click)="toggleDropdown()"
+          class="bg-[#055EAF] text-white px-4 py-2 rounded-lg hover:bg-[#03329E] flex items-center justify-between w-full">
+          Category
+          <span class="material-icons ml-2">arrow_drop_down</span>
+        </button>
 
-      <!-- Product Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        <!-- Product Cards -->
-        <div *ngFor="let product of products" class="bg-white rounded-lg shadow-lg p-4 text-center">
-          <app-product [product]="product"></app-product>
-        </div>
+        <!-- Dropdown Menu for Categories -->
+        <ul
+          *ngIf="isDropdownOpen"
+          class="absolute bg-white border border-gray-300 rounded-lg shadow-lg mt-2 w-full z-10">
+          <li
+            *ngFor="let category of categories"
+            (click)="filterCategory(category)"
+            class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+            {{ category }}
+          </li>
+        </ul>
       </div>
-    </main>
-  </body>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="products.length === 0 && categories.length > 0" class="text-center text-gray-600 text-lg">
+      No products found in this category.
+    </div>
+
+    <div *ngIf="products.length === 0 && categories.length === 0" class="text-center text-gray-600 text-lg">
+      Loading products...
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" *ngIf="products.length > 0">
+      <div *ngFor="let product of products" class="bg-white rounded-lg shadow-lg p-4 text-center">
+        <app-product [product]="product"></app-product>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

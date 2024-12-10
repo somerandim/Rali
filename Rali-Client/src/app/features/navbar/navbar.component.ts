@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { SearchService } from '../search.service';
 
 @Component({
@@ -10,34 +10,41 @@ import { SearchService } from '../search.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   isStorePage: boolean = false;
   searchQuery: string = '';
 
-  constructor(
-    private searchService: SearchService,
-    private router: Router
-  ) {}
+  constructor(private searchService: SearchService, private router: Router) {}
 
   ngOnInit(): void {
-    // Check the initial URL
+    // Check the initial route and set visibility
     this.updateSearchVisibility();
 
-    // Subscribe to route changes
+    // Listen to route changes
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.updateSearchVisibility();
       }
     });
-  } 
-
-
-  updateSearchVisibility(): void {
-    // Set visibility based on the current route
-    this.isStorePage = this.router.url === 'store';
   }
 
+  // Update the visibility of the search bar based on the current route
+  updateSearchVisibility(): void {
+    this.isStorePage = this.router.url.startsWith('/store');
+  }
+
+  // Update the search query in the SearchService when the input changes
   onSearchChange(): void {
     this.searchService.setSearchQuery(this.searchQuery);
+  }
+
+  // Handle profile navigation based on login status
+  onProfileClick(): void {
+    const isLoggedIn = localStorage.getItem('jwtToken') !== null; // Check if user is logged in
+    if (isLoggedIn) {
+      this.router.navigate(['/profile']); // Navigate to profile page
+    } else {
+      this.router.navigate(['/signup']); // Navigate to signup page
+    }
   }
 }
