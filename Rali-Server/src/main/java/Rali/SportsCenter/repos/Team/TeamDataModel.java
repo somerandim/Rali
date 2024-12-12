@@ -4,12 +4,17 @@ package Rali.SportsCenter.repos.Team;
 import jakarta.persistence.*;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import Rali.SportsCenter.repos.Booking.BookingDataModel;
 import Rali.SportsCenter.repos.User.UserDataModel;
 
 @Entity
 @Table(name = "Team")
 public class TeamDataModel {
-    
+
+   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long teamId;
@@ -22,7 +27,13 @@ public class TeamDataModel {
         joinColumns = @JoinColumn(name = "teamId"),
         inverseJoinColumns = @JoinColumn(name = "userId")
     )
+    @JsonIgnore
     private Set<UserDataModel> users;
+
+    @OneToMany(mappedBy = "team")
+   @JsonIgnore
+    private Set<BookingDataModel> bookings;
+
 
     // No-argument constructor
     public TeamDataModel() {}
@@ -55,6 +66,8 @@ public class TeamDataModel {
     public void setUsers(Set<UserDataModel> users) {
         this.users = users;
     }
+
+ 
 
 }
 

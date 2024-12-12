@@ -5,6 +5,8 @@ package Rali.SportsCenter.repos.Venue;
 import jakarta.persistence.*;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import Rali.SportsCenter.repos.Activity.ActivityDataModel;
 import Rali.SportsCenter.repos.Booking.BookingDataModel;
 
@@ -19,8 +21,10 @@ public class VenueDataModel {
     private String name;
     private Boolean availability;
     private Double price;
+    
 
     @OneToMany(mappedBy = "venue")
+    @JsonIgnore
     private Set<BookingDataModel> bookings;
 
       @ManyToOne
@@ -37,6 +41,8 @@ public class VenueDataModel {
         this.availability = availability;
         this.price = price;
     }
+
+    
 
     public Long getVenueId() {
         return venueId;
@@ -76,6 +82,15 @@ public class VenueDataModel {
 
     public void setBookings(Set<BookingDataModel> bookings) {
         this.bookings = bookings;
+    }
+
+    
+    public ActivityDataModel getActivity() {
+        return activity;
+    }
+
+    public void setActivity(ActivityDataModel activity) {
+        this.activity = activity;
     }
 
     // Getters and Setters

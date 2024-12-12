@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Bookings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <main class="p-8">
+    <div class="flex items-center justify-between mb-6">
+      <!-- Back Arrow and Title -->
+      <div class="flex items-center">
+        <button (click)="navigateHome()" class="text-[#055EAF] hover:text-[#03329E] flex items-center">
+          <span class="material-icons text-3xl mr-2">arrow_back</span>
+        </button>
+        <h2 class="text-3xl font-bold text-[#055EAF]">Public Bookings for {{ activityName }}</h2>
+      </div>
+
+      <!-- Booking Type Buttons -->
+      <div class="flex space-x-4">
+        <button
+          class="py-2 px-4 rounded-lg shadow-md"
+          [ngClass]="bookingType === 'Private' ? 'bg-[#055EAF] text-white' : 'bg-gray-200 text-gray-800'"
+          (click)="redirectToPrivateBooking()">
+          Private
+        </button>
+
+        <button
+          class="py-2 px-4 rounded-lg shadow-md"
+          [ngClass]="bookingType === 'Public' ? 'bg-[#055EAF] text-white' : 'bg-gray-200 text-gray-800'"
+          (click)="navigateToPublicBooking()">
+          Public
+        </button>
+      </div>
+    </div>
+
+   <!-- Booking Cards -->
+<div *ngIf="filteredBookings.length > 0; else noBookings" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let booking of filteredBookings" class="bg-white shadow-md rounded-lg p-6">
+      <h3 class="text-lg font-semibold mb-4">Venue: {{ booking.venue?.name || 'Unknown Venue' }}</h3>
+      <p><strong>Activity:</strong> {{ activityName || 'Unknown Activity' }}</p>
+      <p><strong>Date:</strong> {{ booking.date | date: 'fullDate' }}</p>
+      <p><strong>Time:</strong> {{ booking.startTime || 'N/A' }} - {{ booking.endTime || 'N/A' }}</p>
+      
+  
+      <button 
+        class="bg-[#055EAF] text-white py-2 px-4 mt-4 rounded-lg hover:bg-blue-700"
+        (click)="goToConfirmation(booking)">
+        Join Booking
+      </button>
+    </div>
+  </div>
+  
+    <!-- No Bookings Placeholder -->
+    <ng-template #noBookings>
+      <p class="text-center text-gray-500 mt-6">No public bookings available for this activity.</p>
+    </ng-template>
+  </main>
+</body>
+</html>

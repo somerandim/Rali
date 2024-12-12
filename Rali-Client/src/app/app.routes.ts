@@ -8,6 +8,7 @@ import { StoreComponent } from './features/store/store.component';
 import { CartComponent } from './features/cart/cart.component';
 import { ProfileComponent } from './auth/profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
+import { PublicbookingComponent } from './features/public-booking/publicbooking/publicbooking.component';
 
 export const routes: Routes = [
     { path: 'signup', component: SignupComponent },
@@ -18,5 +19,7 @@ export const routes: Routes = [
     { path: 'store', component: StoreComponent},
     {path: 'cart', component: CartComponent},
     { path: 'profile', component: ProfileComponent },
-    {path : 'admin', component: AdminComponent}
+    {path : 'admin', component: AdminComponent},
+    { path: ':sport/public', component: PublicbookingComponent }
+
 ];

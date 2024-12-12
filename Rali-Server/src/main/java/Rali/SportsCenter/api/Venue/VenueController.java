@@ -47,4 +47,12 @@ public class VenueController {
         venueService.deleteVenue(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+    @GetMapping("/by-activity/{activityId}")
+    public ResponseEntity<List<VenueDataModel>> getVenuesByActivityId(@PathVariable("activityId") Long activityId) {
+        List<VenueDataModel> venues = venueService.findVenuesByActivityId(activityId);
+        return new ResponseEntity<>(venues, HttpStatus.OK);
+    }
+
 }

@@ -1,110 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Court</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<body class="bg-gray-100">
-  <main class="p-8">
-    <div class="flex items-center mb-6">
-      <!-- Back Arrow -->
+<main class="p-8">
+  <div class="flex items-center justify-between mb-6">
+    <!-- Back Arrow and Title -->
+    <div class="flex items-center">
       <button (click)="navigateHome()" class="text-[#055EAF] hover:text-[#03329E] flex items-center">
         <span class="material-icons text-3xl mr-2">arrow_back</span>
       </button>
-      <h2 class="text-3xl font-bold text-[#055EAF]">BOOK {{ sport.name }}</h2>
+      <h2 class="text-3xl font-bold text-[#055EAF]">Public Bookings for {{ sport.name }}</h2>
     </div>
 
-    <div class="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-6">
-      <!-- Sport Image -->
-      <div class="relative w-full lg:w-1/2 text-white rounded-lg overflow-hidden shadow-lg" [ngClass]="sport.color">
-        <h3 class="absolute top-4 left-4 text-xl font-semibold z-10">{{ sport.name }}</h3>
-        <img [src]="sport.image" [alt]="sport.name" class="w-full h-full object-contain">
-      </div>
 
-      <!-- Calendar and Booking Details -->
-      <div class="flex flex-col w-full lg:w-2/3 space-y-6">
-        <!-- Calendar and Booking Options Wrapper -->
-        <div class="flex flex-col lg:flex-row lg:space-x-6">
-          <!-- Calendar -->
-          <div class="calendar-container bg-white p-6 rounded-lg shadow-lg lg:w-2/3">
-            <div class="flex justify-between items-center mb-4">
-              <button
-                *ngIf="!isPastMonth()"
-                class="text-lg font-semibold"
-                (click)="changeMonth(-1)">‹
-              </button>
-              <h4 class="text-lg font-semibold">{{ currentMonth | date: 'MMMM yyyy' }}</h4>
-              <button class="text-lg font-semibold" (click)="changeMonth(1)">›</button>
-            </div>
-            <div class="grid grid-cols-7 text-center gap-2">
-              <div *ngFor="let day of days" class="font-semibold text-gray-600">
-                {{ day }}
-              </div>
-              <div
-                *ngFor="let date of calendarDays"
-                [class.current-day]="isToday(date)"
-                [class.selected-day]="isSelectedDate(date)"
-                [class.disabled-day]="isDisabled(date)"
-                class="py-2 text-gray-700 text-center rounded hover:bg-gray-200 cursor-pointer"
-                (click)="selectDate(date)"
-                [class.cursor-not-allowed]="isDisabled(date)">
-                {{ date.getDate() }}
-              </div>
-            </div>
-          </div>
+    <!-- Booking Type Buttons -->
+    <div class="flex space-x-4">
+      <button
+        class="py-2 px-4 rounded-lg shadow-md"
+        [ngClass]="bookingType === 'Private' ? 'bg-[#055EAF] text-white' : 'bg-gray-200 text-gray-800'"
+        (click)="redirectToPrivateBooking()">
+        Private
+      </button>
 
-          <!-- Booking Options -->
-          <div class="flex flex-col space-y-6 lg:w-1/3">
-            <!-- Court Selector -->
-            <div class="bg-white p-4 rounded-lg shadow-lg">
-              <label for="court" class="block text-sm font-semibold mb-2">Select Court</label>
-              <select id="court" class="w-full p-2 border border-gray-300 rounded-lg">
-                <option *ngFor="let court of courts">{{ court }}</option>
-              </select>
-            </div>
-
-            <!-- Time Selector -->
-            <div class="bg-white p-4 rounded-lg shadow-lg">
-              <label for="time" class="block text-sm font-semibold mb-2">Select Time</label>
-              <select id="time" class="w-full p-2 border border-gray-300 rounded-lg">
-                <option *ngFor="let time of times">{{ time }}</option>
-              </select>
-            </div>
-
-            <!-- Booking Type -->
-            <div>
-              <h4 class="text-lg font-semibold mb-2">Booking Type</h4>
-              <div class="flex space-x-4">
-                <button
-                  class="py-2 px-4 rounded-lg shadow-md"
-                  [ngClass]="bookingType === 'Private' ? 'bg-[#055EAF] text-white' : 'bg-gray-200 text-gray-800'"
-                  (click)="setBookingType('Private')">
-                  Private
-                </button>
-                <button
-                  class="py-2 px-4 rounded-lg shadow-md"
-                  [ngClass]="bookingType === 'Public' ? 'bg-[#055EAF] text-white' : 'bg-gray-200 text-gray-800'"
-                  (click)="setBookingType('Public')">
-                  Public
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Save Information Button -->
-        <div>
-          <button
-            class="bg-[#055EAF] text-white py-3 px-6 rounded-lg hover:bg-blue-700 w-full"
-            (click)="saveInformation()">
-            SAVE INFORMATION
-          </button>
-        </div>
-      </div>
+      <button
+        class="py-2 px-4 rounded-lg shadow-md"
+        [ngClass]="bookingType === 'Public' ? 'bg-[#055EAF] text-white' : 'bg-gray-200 text-gray-800'"
+        (click)="navigateToPublicBooking()">
+        Public
+      </button>
     </div>
-  </main>
-</body>
-</html>
+  </div>
+
+  <!-- Booking Cards -->
+  <div *ngIf="filteredBookings.length > 0; else noBookings" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let booking of filteredBookings" class="bg-white shadow-md rounded-lg p-6">
+      <h3 class="text-lg font-semibold mb-4">Venue: {{ booking.venue?.name || 'Unknown Venue' }}</h3>
+      <p><strong>Activity:</strong> {{ sport.name || 'Unknown Activity' }}</p>
+      <p><strong>Date:</strong> {{ booking.date | date: 'fullDate' }}</p>
+      <p><strong>Time:</strong> {{ booking.startTime || 'N/A' }} - {{ booking.endTime || 'N/A' }}</p>
+      <p><strong>Team ID:</strong> {{ booking.team?.teamId || 'N/A' }}</p>
+
+      <button
+        class="bg-[#055EAF] text-white py-2 px-4 mt-4 rounded-lg hover:bg-blue-700"
+        (click)="goToConfirmation(booking)">
+        Join Booking
+      </button>
+    </div>
+  </div>
+
+  <!-- No Bookings Placeholder -->
+  <ng-template #noBookings>
+    <p class="text-center text-gray-500 mt-6">No bookings available for this sport.</p>
+  </ng-template>
+</main>

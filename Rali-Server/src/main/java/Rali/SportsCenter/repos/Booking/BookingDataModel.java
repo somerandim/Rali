@@ -5,6 +5,11 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import Rali.SportsCenter.repos.Receipt.ReceiptDataModel;
 import Rali.SportsCenter.repos.Team.TeamDataModel;
 import Rali.SportsCenter.repos.Venue.VenueDataModel;
@@ -23,12 +28,14 @@ public class BookingDataModel {
 
     @ManyToOne
     @JoinColumn(name = "teamId")
+
     private TeamDataModel team;
 
     @ManyToOne
     @JoinColumn(name = "venueId")
     private VenueDataModel venue;
 
+    
     @ManyToMany
     @JoinTable(
         name = "Booking-Recipt",
@@ -36,6 +43,7 @@ public class BookingDataModel {
         inverseJoinColumns = @JoinColumn (name = "ReceiptId")
     
     )
+    
     private Set<ReceiptDataModel> Receipts;
 
     // No-argument constructor
@@ -96,6 +104,14 @@ public class BookingDataModel {
 
     public void setVenue(VenueDataModel venue) {
         this.venue = venue;
+    }
+
+    public Set<ReceiptDataModel> getReceipts() {
+        return Receipts;
+    }
+
+    public void setReceipts(Set<ReceiptDataModel> receipts) {
+        Receipts = receipts;
     }
 
     // Getters and Setters

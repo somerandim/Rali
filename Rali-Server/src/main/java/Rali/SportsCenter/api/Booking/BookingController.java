@@ -4,12 +4,15 @@ package Rali.SportsCenter.api.Booking;
 
 
 import Rali.SportsCenter.repos.Booking.BookingDataModel;
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/booking")
@@ -18,6 +21,35 @@ public class BookingController {
 
     public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
+    }
+
+    @GetMapping("/bookings/by-team/{teamId}")
+    public ResponseEntity<List<Long>> getBookingIdsByTeamId(@PathVariable Long teamId) {
+        try {
+            List<Long> bookingIds = bookingService.getBookingIdsByTeamId(teamId);
+            return new ResponseEntity<>(bookingIds, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    
+
+    @PostMapping("/{bookingId}/add-users")
+    public ResponseEntity<String> addUsersToTeam(@PathVariable Long bookingId) {
+        try {
+            bookingService.addUsersToTeamFromBooking(bookingId);
+            return new ResponseEntity<>(     HttpStatus.OK);
+
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.NOT_FOUND);
+
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>("Invalid request: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>("Server error.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/all")
@@ -49,4 +81,33 @@ public class BookingController {
         bookingService.deleteBooking(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+      @PostMapping("/set-receipts")
+    public ResponseEntity<BookingDataModel> setBookingReceipts(@RequestBody BookingDataModel booking) {
+        try {
+            bookingService.postBookingReceiptTable(booking);
+            return new ResponseEntity<>(booking, HttpStatus.OK);
+
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("/by-activity/{activityId}")
+    public ResponseEntity<List<Map<String, Object>>> getBookingsByActivityId(@PathVariable Long activityId) {
+        List<Map<String, Object>> bookings = bookingService.findBookingsByActivity(activityId);
+    
+        // Inspect the response structure for debugging
+        System.out.println("Bookings Response: " + bookings);
+    
+        return new ResponseEntity<>(bookings, HttpStatus.OK); // Return the response as JSON
+    }
+
 }

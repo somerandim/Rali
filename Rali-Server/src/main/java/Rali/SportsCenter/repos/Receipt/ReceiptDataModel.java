@@ -3,6 +3,8 @@ package Rali.SportsCenter.repos.Receipt;
 import jakarta.persistence.*;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import Rali.SportsCenter.repos.Booking.BookingDataModel;
 import Rali.SportsCenter.repos.Product.ProductDataModel;
 import Rali.SportsCenter.repos.User.UserDataModel;
@@ -23,12 +25,15 @@ public class ReceiptDataModel {
 
     @ManyToOne
     @JoinColumn(name = "userId")
+    @JsonIgnore
     private UserDataModel user;
 
     @ManyToMany(mappedBy = "Receipts")
+    @JsonIgnore
     private Set<ProductDataModel> products;
 
     @ManyToMany(mappedBy = "Receipts")
+    @JsonIgnore
     private Set<BookingDataModel> Bookings;
 
     // No-argument constructor
@@ -47,11 +52,11 @@ public class ReceiptDataModel {
         Bookings = bookings;
     }
 
-    public Long getOrderId() {
+    public Long getReceiptId() {
         return ReceiptId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setReceiptId(Long ReceiptId) {
         this.ReceiptId = ReceiptId;
     }
 

@@ -12,33 +12,51 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
 
-      <!-- Add Product Form -->
-      <div class="bg-white shadow-md rounded-lg p-8">
-        <h3 class="text-xl font-semibold mb-6" style="color: #055EAF;">Add Product</h3>
-        <form #productForm="ngForm" (ngSubmit)="onSubmitProduct(productForm)">
-          <div class="mb-4">
-            <label for="productName" class="block text-sm font-medium text-gray-700">Product Name</label>
-            <input type="text" id="productName" name="productName" ngModel class="input-field" placeholder="Enter product name" required>
-          </div>
-          <div class="mb-4">
-            <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
-            <input type="number" id="quantity" name="quantity" ngModel class="input-field" placeholder="Enter quantity" required>
-          </div>
-          <div class="mb-4">
-            <label for="image" class="block text-sm font-medium text-gray-700">Image URL</label>
-            <input type="url" id="image" name="image" ngModel class="input-field" placeholder="Enter image URL">
-          </div>
-          <div class="mb-4">
-            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
-            <input type="number" id="price" name="price" ngModel class="input-field" placeholder="Enter price" required>
-          </div>
-          <div class="mb-4">
-            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-            <textarea id="description" name="description" rows="4" ngModel class="input-field" placeholder="Enter product description"></textarea>
-          </div>
-          <button type="submit" class="submit-btn">Add Product</button>
-        </form>
-      </div>
+  <!-- Product Form -->
+<div class="bg-white shadow-md rounded-lg p-8">
+  <h3 class="text-xl font-semibold mb-6" style="color: #055EAF;">Add Product</h3>
+
+  <form #productForm="ngForm" (ngSubmit)="onSubmitProduct(productForm)">
+    <!-- Product Name -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Product Name</label>
+      <input type="text" name="name" ngModel class="input-field" placeholder="Enter product name" required>
+    </div>
+
+    <!-- Quantity -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Quantity</label>
+      <input type="number" name="quantity" ngModel class="input-field" placeholder="Enter quantity" required>
+    </div>
+
+    <!-- Image URL -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Image URL</label>
+      <input type="text" name="image" ngModel class="input-field" placeholder="Enter image URL">
+    </div>
+
+    <!-- Price -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Price</label>
+      <input type="number" name="price" ngModel class="input-field" placeholder="Enter price" required>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Categories</label>
+      
+      <!-- Multi-Select Dropdown -->
+      <select name="categories" ngModel multiple class="input-field">
+        <option *ngFor="let category of categories" [value]="category.categoryId">
+          {{ category.name || 'Unnamed Category' }}
+        </option>
+      </select>
+    </div>
+    
+    
+    
+    <button type="submit" class="submit-btn">Add Product</button>
+  </form>
+</div>
 
       <!-- Add Category Form -->
       <div class="bg-white shadow-md rounded-lg p-8">
@@ -46,31 +64,51 @@
         <form #categoryForm="ngForm" (ngSubmit)="onSubmitCategory(categoryForm)">
           <div class="mb-4">
             <label for="categoryName" class="block text-sm font-medium text-gray-700">Category Name</label>
-            <input type="text" id="categoryName" name="categoryName" ngModel class="input-field" placeholder="Enter category name" required>
+            <input type="text" id="categoryName" name="name" ngModel class="input-field" placeholder="Enter category name" required>
           </div>
           <button type="submit" class="submit-btn">Add Category</button>
         </form>
       </div>
 
       <!-- Add Venue Form -->
-      <div class="bg-white shadow-md rounded-lg p-8">
-        <h3 class="text-xl font-semibold mb-6" style="color: #055EAF;">Add Venue</h3>
-        <form #venueForm="ngForm" (ngSubmit)="onSubmitVenue(venueForm)">
-          <div class="mb-4">
-            <label for="venueName" class="block text-sm font-medium text-gray-700">Venue Name</label>
-            <input type="text" id="venueName" name="venueName" ngModel class="input-field" placeholder="Enter venue name" required>
-          </div>
-          <div class="mb-4 flex items-center">
-            <input type="checkbox" id="availability" name="availability" ngModel class="mr-2">
-            <label for="availability" class="text-sm text-gray-700">Available</label>
-          </div>
-          <div class="mb-4">
-            <label for="venuePrice" class="block text-sm font-medium text-gray-700">Price</label>
-            <input type="number" id="venuePrice" name="venuePrice" ngModel class="input-field" placeholder="Enter venue price" required>
-          </div>
-          <button type="submit" class="submit-btn">Add Venue</button>
-        </form>
-      </div>
+<div class="bg-white shadow-md rounded-lg p-8">
+  <h3 class="text-xl font-semibold mb-6" style="color: #055EAF;">Add Venue</h3>
+
+  <form #venueForm="ngForm" (ngSubmit)="onSubmitVenue(venueForm)">
+    <!-- Venue Name -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Venue Name</label>
+      <input type="text" name="name" ngModel class="input-field" placeholder="Enter venue name" required>
+    </div>
+
+    <!-- Availability -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Availability</label>
+      <input type="checkbox" name="availability" ngModel class="input-checkbox">
+    </div>
+
+   
+
+    <!-- Price -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Price</label>
+      <input type="number" name="price" ngModel class="input-field" placeholder="Enter venue price" required>
+    </div>
+
+    <!-- Activities Dropdown -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Activity</label>
+      <select name="activity" ngModel class="input-field">
+        <option *ngFor="let activity of activities" [value]="activity.activityId">
+          {{ activity.name || 'Unnamed Activity' }}
+        </option>
+      </select>
+    </div>
+
+    <button type="submit" class="submit-btn">Add Venue</button>
+  </form>
+</div>
+
 
       <!-- Add Activity Form -->
       <div class="bg-white shadow-md rounded-lg p-8">
@@ -78,7 +116,7 @@
         <form #activityForm="ngForm" (ngSubmit)="onSubmitActivity(activityForm)">
           <div class="mb-4">
             <label for="activityName" class="block text-sm font-medium text-gray-700">Activity Name</label>
-            <input type="text" id="activityName" name="activityName" ngModel class="input-field" placeholder="Enter activity name" required>
+            <input type="text" id="activityName" name="name" ngModel class="input-field" placeholder="Enter activity name" required>
           </div>
           <div class="mb-4">
             <label for="activityDescription" class="block text-sm font-medium text-gray-700">Description</label>
@@ -91,6 +129,76 @@
           <button type="submit" class="submit-btn">Add Activity</button>
         </form>
       </div>
+
+
+      <!-- Add Booking Form -->
+<div class="bg-white shadow-md rounded-lg p-8 mt-8">
+  <h3 class="text-xl font-semibold mb-6" style="color: #055EAF;">Add Booking</h3>
+
+  <form #bookingForm="ngForm" (ngSubmit)="onSubmitBooking(bookingForm)">
+    <!-- Booking Date -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Date</label>
+      <input type="date" name="date" ngModel class="input-field" placeholder="Select booking date" required>
+    </div>
+
+    <!-- Start Time -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Start Time</label>
+      <input type="time" name="startTime" ngModel class="input-field" placeholder="Enter start time" required>
+    </div>
+
+    <!-- End Time -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">End Time</label>
+      <input type="time" name="endTime" ngModel class="input-field" placeholder="Enter end time" required>
+    </div>
+
+    <!-- Team -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Team</label>
+      <select name="team" ngModel class="input-field">
+        <option [value]="0" selected>No Team</option>
+        <option *ngFor="let team of teams" [value]="team.teamId">
+          {{ team.teamId || 'Unnamed Team' }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Venue -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Venue</label>
+      <select name="venue" ngModel class="input-field">
+        <option [value]="0" selected>No Venue</option>
+        <option *ngFor="let venue of venues" [value]="venue.venueId">
+          {{ venue.name || 'Unnamed Venue' }}
+        </option>
+      </select>
+    </div>
+
+    <button type="submit" class="submit-btn">Add Booking</button>
+  </form>
+</div>
+
+
+<!-- Add Team Form -->
+<div class="bg-white shadow-md rounded-lg p-8 mt-8">
+  <h3 class="text-xl font-semibold mb-6" style="color: #055EAF;">Add Team</h3>
+
+  <form #teamForm="ngForm" (ngSubmit)="onSubmitTeam(teamForm)">
+    <!-- Team Name -->
+   
+
+    <!-- Visibility -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Visibility</label>
+      <input type="checkbox" name="visibility" ngModel class="input-checkbox">
+    </div>
+
+    <button type="submit" class="submit-btn">Add Team</button>
+  </form>
+</div>
+
 
     </div>
   </main>

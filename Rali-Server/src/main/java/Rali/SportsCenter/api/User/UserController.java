@@ -41,10 +41,18 @@ public class UserController {
     /**
      * Get all users
      */
-    @GetMapping("/all")
-    public ResponseEntity<List<UserDataModel>> getAllUsers() {
-        List<UserDataModel> users = userService.findAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    @GetMapping("/profile")
+    public ResponseEntity<UserDataModel> getUserProfile(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    
+        String token = authHeader.substring(7);  // Extract token
+        String email = jwtUtil.validateToken(token);  // Extract email from JWT
+    
+        UserDataModel user = userService.findByEmail(email);  // Fetch user from DB
+    
+        return new ResponseEntity<>(user, HttpStatus.OK);  // Return user data
     }
 
     /**

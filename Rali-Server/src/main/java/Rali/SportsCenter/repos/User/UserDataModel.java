@@ -3,6 +3,9 @@ package Rali.SportsCenter.repos.User;
 import jakarta.persistence.*;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import Rali.SportsCenter.repos.Receipt.ReceiptDataModel;
 import Rali.SportsCenter.repos.Team.TeamDataModel;
 
@@ -24,9 +27,11 @@ public class UserDataModel {
     private String phoneNumber;
     
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<ReceiptDataModel> orders;
     
     @ManyToMany(mappedBy = "users")
+    @JsonIgnore
     private Set<TeamDataModel> teams;
 
     public UserDataModel(){}

@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import Rali.SportsCenter.repos.Product.*;
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Category")
 public class CategoryDataModel {
@@ -16,6 +19,7 @@ public class CategoryDataModel {
     private String name;
 
     @ManyToMany(mappedBy = "categorys")
+    @JsonIgnore
     private Set<ProductDataModel> products;
 
     // No-argument constructor

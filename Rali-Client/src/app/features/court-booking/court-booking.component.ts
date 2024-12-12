@@ -1,154 +1,152 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CourtbookingService } from './courtbooking.service';
+import { Venue } from '../../models/Venue';
+import { Activity } from '../../models/Activity';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-court-booking',
-  standalone: true,
-  imports: [RouterModule, CommonModule],
   templateUrl: './court-booking.component.html',
-  styleUrls: ['./court-booking.component.css']
+  styleUrls: ['./court-booking.component.css'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class CourtBookingComponent implements OnInit {
   sport = {
     name: '',
     image: '',
-    color: ''
+    color: '',
+    activityId: 0,
   };
 
-  times: string[] = ['10:00 AM - 12:00 AM', '1:00 PM - 3:00 PM', '4:00 PM - 6:00 PM', '7:00 PM - 9:00 PM'];
-  courts: string[] = []; // Array for court options
-  selectedDate: Date | null = null;
-  selectedCourt: string | null = null;
-  bookingType: string = 'Private'; // Default booking type
+  bookings: any[] = [];
+  filteredBookings: any[] = []; // Filtered Private Bookings
+  bookingType: string = 'Private'; // Default Type
 
-  days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  currentMonth: Date = new Date();
-  calendarDays: Date[] = [];
-
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private bookingService: CourtbookingService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.sport.name = params['sport'] || this.sport.name;
-      this.sport.image = params['image'] || this.sport.image;
-      this.sport.color = params['color'] || this.sport.color;
-  
-      // Generate court options dynamically based on the sport
-      const sportInitial = this.sport.name.charAt(0).toUpperCase();
-      this.courts = Array.from({ length: 3 }, (_, i) => `${sportInitial}${i + 1}`);
+    this.route.queryParams.subscribe((params) => {
+      this.sport.name = params['sport'] || '';
+      this.sport.image = params['image'] || '';
+      this.sport.color = params['color'] || '';
+
+      if (this.sport.name) {
+        this.fetchActivityIdByName(this.sport.name);
+      }
     });
-    this.generateCalendar(this.currentMonth);
-  }  
+  }
 
-  saveInformation(): void {
-    const selectedTime = (document.getElementById('time') as HTMLSelectElement).value;
-    const selectedCourt = (document.getElementById('court') as HTMLSelectElement).value;
-    const bookingType = this.bookingType;
+
+  getSportDetails(sportName: string) {
+    const sports = [
+      { name: 'FootBall', image: 'assets/futsal.png', color: 'bg-green-800' },
+      { name: 'Running', image: 'assets/running.png', color: 'bg-red-600' },
+      { name: 'Swimming', image: 'assets/swimming.png', color: 'bg-blue-700' },
+      { name: 'Basketball', image: 'assets/basketball.png', color: 'bg-orange-600' },
+      { name: 'Judo', image: 'assets/judo.png', color: 'bg-red-800' },
+      { name: 'Volleyball', image: 'assets/volleyball.png', color: 'bg-yellow-500' },
+      { name: 'Ping-Pong', image: 'assets/pingpong.png', color: 'bg-teal-700' },
+    ];
   
-    if (this.selectedDate && selectedTime && selectedCourt) {
-      this.router.navigate(['/confirmation'], {
-        queryParams: {
-          sport: this.sport.name,
-          image: this.sport.image,
-          date: this.selectedDate?.toISOString(),
-          time: selectedTime,
-          court: selectedCourt,
-          type: bookingType,
-          color: this.sport.color // Pass the color
-        }
+    return sports.find((sport) => sport.name.toLowerCase() === sportName.toLowerCase()) || {
+      name: sportName,
+      image: 'assets/default.png',
+      color: 'bg-gray-400'
+    };
+  }
+
+  
+  goToConfirmation(booking: any): void {
+    const selectedSport = this.sport.name;
+    const sportDetails = this.getSportDetails(selectedSport);
+  
+    this.router.navigate(['/confirmation'], {
+      queryParams: {
+        sport: sportDetails.name,
+        image: sportDetails.image,
+        color: sportDetails.color,
+        venue: booking.venue?.name || 'Unknown Venue',
+        date: booking.date,
+        time: `${booking.startTime || 'N/A'} - ${booking.endTime || 'N/A'}`,
+        court: booking.venue?.name || 'Not Selected',
+        type: 'Private',
+        teamId: booking.team?.teamId || 'N/A',
+        price: booking.venue?.price || 0
+      },
+    });
+  }
+
+
+  /**
+   * Navigate to Public Booking
+   */
+  navigateToPublicBooking(): void {
+    if (this.sport.name) {
+      this.router.navigate([`${this.sport.name.toLowerCase()}/public`], {
+        queryParams: { activityName: this.sport.name },
       });
-    } else {
-      alert('Please select a date, time, and court!');
-    }
-  }
-  
-
-  generateCalendar(date: Date): void {
-    this.calendarDays = [];
-    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    const prevMonthDays = firstDay.getDay();
-    const nextMonthDays = 6 - lastDay.getDay();
-
-    // Add previous month's days
-    for (let i = 0; i < prevMonthDays; i++) {
-      const prevDate = new Date(firstDay);
-      prevDate.setDate(prevDate.getDate() - prevMonthDays + i);
-      this.calendarDays.push(prevDate);
-    }
-
-    // Add current month's days
-    for (let i = 1; i <= lastDay.getDate(); i++) {
-      this.calendarDays.push(new Date(date.getFullYear(), date.getMonth(), i));
-    }
-
-    // Add next month's days
-    for (let i = 1; i <= nextMonthDays; i++) {
-      const nextDate = new Date(lastDay);
-      nextDate.setDate(lastDay.getDate() + i);
-      this.calendarDays.push(nextDate);
     }
   }
 
-  changeMonth(step: number): void {
-    const newDate = new Date(this.currentMonth);
-    newDate.setMonth(this.currentMonth.getMonth() + step);
+  /**
+   * Fetch Activity ID by Activity Name
+   */
+  private fetchActivityIdByName(activityName: string): void {
+    this.bookingService.getActivities().subscribe({
+      next: (activities: Activity[]) => {
+        const activity = activities.find(
+          (a) => a.name.toLowerCase() === activityName.toLowerCase()
+        );
 
-    // Ensure you cannot navigate to past months
-    if (step < 0 && this.isPastMonth(newDate)) return;
-
-    this.currentMonth = newDate;
-    this.generateCalendar(this.currentMonth);
+        if (activity) {
+          this.sport.activityId = activity.activityId;
+          this.loadActivityBookings();
+        } else {
+          console.error('Activity not found for name:', activityName);
+        }
+      },
+      error: (err) => {
+        console.error('Error loading activities:', err);
+        alert('Error loading activities!');
+      },
+    });
   }
 
-  isPastMonth(date: Date = this.currentMonth): boolean {
-    const today = new Date();
-    today.setDate(1); // Only compare year and month
-    return date < today;
+  /**
+   * Load Bookings by Activity ID
+   */
+  private loadActivityBookings(): void {
+    this.bookingService.getBookingsByActivityId(this.sport.activityId).subscribe({
+      next: (response) => {
+        this.bookings = response;
+        this.filteredBookings = this.bookings.filter(
+          (booking) => booking.team?.visibility === "false"
+        );
+      },
+      error: (err) => {
+        console.error('Error loading bookings:', err);
+        alert('Error loading bookings!');
+      },
+    });
   }
 
-  isDisabled(date: Date): boolean {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    // Disable dates not in the current month or in the past
-    return (
-      date.getMonth() !== this.currentMonth.getMonth() ||
-      date.getFullYear() !== this.currentMonth.getFullYear() ||
-      date < today
-    );
-  }
-
-  selectDate(date: Date): void {
-    if (!this.isDisabled(date)) {
-      this.selectedDate = date;
-    }
-  }
-
-  isToday(date: Date): boolean {
-    const today = new Date();
-    return (
-      today.getDate() === date.getDate() &&
-      today.getMonth() === date.getMonth() &&
-      today.getFullYear() === date.getFullYear()
-    );
-  }
-
-  isSelectedDate(date: Date): boolean {
-    return (
-      this.selectedDate?.getDate() === date.getDate() &&
-      this.selectedDate?.getMonth() === date.getMonth() &&
-      this.selectedDate?.getFullYear() === date.getFullYear()
-    );
-  }
-
-  setBookingType(type: string): void {
-    this.bookingType = type;
-  }
-
+  /**
+   * Navigate Back Home
+   */
   navigateHome(): void {
     this.router.navigate(['']);
   }
+
   
+  redirectToPrivateBooking(): void {
+    this.router.navigate(['/court-booking'], {
+      queryParams: { sport: this.sport.name },
+    });
+  }
 }

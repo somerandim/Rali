@@ -5,6 +5,8 @@ package Rali.SportsCenter.repos.Activity;
 import jakarta.persistence.*;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import Rali.SportsCenter.repos.Venue.VenueDataModel;
 
 @Entity
@@ -20,6 +22,7 @@ public class ActivityDataModel {
     private Integer maxUsers;
 
     @OneToMany(mappedBy = "activity")
+    @JsonIgnore
     private Set<VenueDataModel> venues;
 
     // No-argument constructor

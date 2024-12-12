@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProfileService } from './profile.service'; // Import ProfileService
@@ -10,16 +10,37 @@ import { ProfileService } from './profile.service'; // Import ProfileService
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
-  firstName: string = 'John'; // Example default value
-  lastName: string = 'Doe';  // Example default value
-  email: string = 'john.doe@gmail.com'; // Example default value
-  password: string = '********'; // Password placeholder for security
+export class ProfileComponent implements OnInit {
+  firstName: string = ''; // Default values removed
+  lastName: string = '';  
+  email: string = ''; 
+  password: string = ''; 
 
   constructor(private router: Router, private profileService: ProfileService) {}
 
-  // Update user profile (simulated here)
-  updateProfile() {
+  ngOnInit(): void {
+    this.loadProfile(); // Fetch user profile on component initialization
+  }
+
+  // Load the user's profile from the backend
+  loadProfile(): void {
+    this.profileService.getProfile().subscribe(
+      (response) => {
+        // Populate fields with retrieved data
+        this.firstName = response.firstName;
+        this.lastName = response.lastName;
+        this.email = response.email;
+        this.password = ''; // Leave password empty for security
+      },
+      (error) => {
+        console.error('Error fetching profile:', error);
+        alert('Failed to load profile data.');
+      }
+    );
+  }
+
+  // Update the user's profile
+  updateProfile(): void {
     const updatedData = {
       firstName: this.firstName,
       lastName: this.lastName,
@@ -39,11 +60,14 @@ export class ProfileComponent {
   }
 
   // Log out and redirect to login page
-  onLogout() {
+  onLogout(): void {
     this.profileService.logout().subscribe(
       () => {
         // Remove the JWT token from localStorage
+        localStorage.clear();
         localStorage.removeItem('jwtToken');
+       
+
 
         // Display a logout message
         alert('You have been logged out.');

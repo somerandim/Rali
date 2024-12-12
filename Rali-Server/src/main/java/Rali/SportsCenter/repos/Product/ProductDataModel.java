@@ -3,6 +3,10 @@ package Rali.SportsCenter.repos.Product;
 import jakarta.persistence.*;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import Rali.SportsCenter.repos.Category.CategoryDataModel;
 import Rali.SportsCenter.repos.Receipt.ReceiptDataModel;
 
@@ -21,11 +25,12 @@ public class ProductDataModel {
     private String description;
 
     @ManyToMany
-    @JoinTable(name = "Product-Order", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "ReceiptId"))
+    @JoinTable(name = "Product-Receipt", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "ReceiptId"))
     private Set<ReceiptDataModel> Receipts;
 
     @ManyToMany
     @JoinTable(name = "Product-Category", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "categoryId"))
+   
     private Set<CategoryDataModel> categorys;
 
     // No-argument constructor
@@ -100,11 +105,11 @@ public class ProductDataModel {
         Receipts = receipts;
     }
 
-    public Set<CategoryDataModel> getCategorys() {
+    public Set<CategoryDataModel> getCategories() {
         return categorys;
     }
 
-    public void setCategorys(Set<CategoryDataModel> categorys) {
+    public void setCategories(Set<CategoryDataModel> categorys) {
         this.categorys = categorys;
     }
 

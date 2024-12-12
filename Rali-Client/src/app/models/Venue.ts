@@ -3,4 +3,6 @@ export interface Venue {
     name: string;
     availability: boolean;
     price: number;
+    Activity : number;
+    
   }

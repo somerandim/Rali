@@ -11,7 +11,15 @@ export class ProfileService {
   constructor(private http: HttpClient) {}
 
   // Fetch user profile by email (or another identifier)
-  
+  getProfile(): Observable<any> {
+    const token = localStorage.getItem('jwtToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}` // Attach JWT token
+    });
+
+    return this.http.get<any>(`${this.apiUrl}/user/profile`, { headers });
+  }
+
 
   // Update user profile
   updateProfile(data: any): Observable<any> {

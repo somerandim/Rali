@@ -38,4 +38,8 @@ public class VenueService {
     public void deleteVenue(Long id) {
         venueRepo.deleteById(id);
     }
+
+    public List<VenueDataModel> findVenuesByActivityId(Long activityId) {
+        return venueRepo.findByActivityActivityId(activityId);
+    }
 }

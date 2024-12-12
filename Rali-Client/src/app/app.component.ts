@@ -5,12 +5,13 @@ import { HomeComponent } from "./features/home/home.component";
 import { NavbarComponent } from './features/navbar/navbar.component';
 import { FooterComponent } from './features/footer/footer.component';
 import { ProfileComponent } from './auth/profile/profile.component';
+import { PublicbookingComponent } from './features/public-booking/publicbooking/publicbooking.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AdminComponent, NavbarComponent, FooterComponent, ProfileComponent],
+  imports: [RouterOutlet, AdminComponent, NavbarComponent, FooterComponent, ProfileComponent,PublicbookingComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
