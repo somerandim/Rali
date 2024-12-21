@@ -128,25 +128,25 @@ public class BookingService {
     }
 
 
-    // BookingService.java
-public List<Map<String, Object>> findBookingsByActivity(Long activityId) {
-    return bookingRepo.findBookingsByActivityId(activityId)
-        .stream()
-        .map(booking -> {
-            Map<String, Object> bookingMap = new HashMap<>();
-            bookingMap.put("bookingId", booking.getBookingId());
-            bookingMap.put("date", booking.getDate());
-            bookingMap.put("startTime", booking.getStartTime());
-            bookingMap.put("endTime", booking.getEndTime());
-            bookingMap.put("teamId", booking.getTeam() != null ? booking.getTeam().getTeamId() : null);
-            bookingMap.put("teamVisibility", booking.getTeam() != null ? booking.getTeam().getVisibility() : null);
-            bookingMap.put("venueId", booking.getVenue() != null ? booking.getVenue().getVenueId() : null);
-            bookingMap.put("venueName", booking.getVenue() != null ? booking.getVenue().getName() : null);
-            bookingMap.put("activityName", booking.getVenue() != null && booking.getVenue().getActivity() != null
-                    ? booking.getVenue().getActivity().getName() : null);
-            return bookingMap;
-        })
-        .collect(Collectors.toList());
-}
-
+    public List<Map<String, Object>> findBookingsByActivity(Long activityId) {
+        return bookingRepo.findBookingsByActivityId(activityId)
+            .stream()
+            .map(booking -> {
+                Map<String, Object> bookingMap = new HashMap<>();
+                bookingMap.put("bookingId", booking.getBookingId());
+                bookingMap.put("date", booking.getDate());
+                bookingMap.put("startTime", booking.getStartTime());
+                bookingMap.put("endTime", booking.getEndTime());
+                bookingMap.put("teamId", booking.getTeam() != null ? booking.getTeam().getTeamId() : null);
+                bookingMap.put("teamVisibility", booking.getTeam() != null ? booking.getTeam().getVisibility() : null);
+                bookingMap.put("venueId", booking.getVenue() != null ? booking.getVenue().getVenueId() : null);
+                bookingMap.put("venueName", booking.getVenue() != null ? booking.getVenue().getName() : null);
+                bookingMap.put("venuePrice", booking.getVenue() != null ? booking.getVenue().getPrice() : null); // Add venue price
+                bookingMap.put("activityName", booking.getVenue() != null && booking.getVenue().getActivity() != null
+                        ? booking.getVenue().getActivity().getName() : null);
+                return bookingMap;
+            })
+            .collect(Collectors.toList());
+    }
+    
 }

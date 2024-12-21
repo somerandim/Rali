@@ -17,7 +17,7 @@ export class ConfirmationComponent implements OnInit {
   selectedCourt: string = '';
   bookingType: string = '';
   sportColor: string = 'bg-gray-200';
-  price: number = 0;
+  venuePrice: number = 0;
   teamId: number | null = null;
  // Store teamId
 
@@ -32,7 +32,7 @@ export class ConfirmationComponent implements OnInit {
       this.selectedCourt = params['court'] || 'Not Selected';
       this.bookingType = params['type'] || 'Private';
       this.sportColor = params['color'] || 'bg-gray-200';
-      this.price = params['price'] ? parseFloat(params['price']) : 0;
+      this.venuePrice = params['price'] || 20 ;
   
       // Retrieve and parse the teamId
       this.teamId = params['teamId'] ? Number(params['teamId']) : null;
@@ -46,7 +46,7 @@ export class ConfirmationComponent implements OnInit {
     // Prepare the booking details with teamId
     const bookingDetails = {
       name: `${this.sportName} Booking`,
-      price: this.price,
+      price: this.venuePrice,
       quantity: 1,
       image: this.sportImage,
       details: {
@@ -54,6 +54,7 @@ export class ConfirmationComponent implements OnInit {
         time: this.selectedTime,
         court: this.selectedCourt,
         type: this.bookingType,
+        
       },
       teamId: this.teamId, // Include teamId in booking details
     };

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourtbookingService } from './courtbooking.service';
-import { Venue } from '../../models/Venue';
 import { Activity } from '../../models/Activity';
 import { CommonModule } from '@angular/common';
 
@@ -21,8 +20,8 @@ export class CourtBookingComponent implements OnInit {
   };
 
   bookings: any[] = [];
-  filteredBookings: any[] = []; // Filtered Private Bookings
-  bookingType: string = 'Private'; // Default Type
+  filteredBookings: any[] = []; // Filtered bookings based on visibility
+  bookingType: string = 'Private'; // Default booking type
 
   constructor(
     private bookingService: CourtbookingService,
@@ -31,18 +30,21 @@ export class CourtBookingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Extract query parameters
     this.route.queryParams.subscribe((params) => {
       this.sport.name = params['sport'] || '';
       this.sport.image = params['image'] || '';
       this.sport.color = params['color'] || '';
 
       if (this.sport.name) {
-        this.fetchActivityIdByName(this.sport.name);
+        this.fetchActivityIdByName(this.sport.name); // Fetch activity ID and bookings
       }
     });
   }
 
-
+  /**
+   * Get sport details by name
+   */
   getSportDetails(sportName: string) {
     const sports = [
       { name: 'FootBall', image: 'assets/futsal.png', color: 'bg-green-800' },
@@ -53,49 +55,38 @@ export class CourtBookingComponent implements OnInit {
       { name: 'Volleyball', image: 'assets/volleyball.png', color: 'bg-yellow-500' },
       { name: 'Ping-Pong', image: 'assets/pingpong.png', color: 'bg-teal-700' },
     ];
-  
+
     return sports.find((sport) => sport.name.toLowerCase() === sportName.toLowerCase()) || {
       name: sportName,
       image: 'assets/default.png',
-      color: 'bg-gray-400'
+      color: 'bg-gray-400',
     };
   }
 
-  
+  /**
+   * Navigate to confirmation page
+   */
   goToConfirmation(booking: any): void {
-    const selectedSport = this.sport.name;
-    const sportDetails = this.getSportDetails(selectedSport);
-  
+    const sportDetails = this.getSportDetails(this.sport.name);
+
     this.router.navigate(['/confirmation'], {
       queryParams: {
         sport: sportDetails.name,
         image: sportDetails.image,
         color: sportDetails.color,
-        venue: booking.venue?.name || 'Unknown Venue',
+        venue: booking.venueName || 'Unknown Venue',
         date: booking.date,
         time: `${booking.startTime || 'N/A'} - ${booking.endTime || 'N/A'}`,
-        court: booking.venue?.name || 'Not Selected',
+        court: booking.venueName || 'Not Selected',
         type: 'Private',
-        teamId: booking.team?.teamId || 'N/A',
-        price: booking.venue?.price || 0
+        teamId: booking.teamId || 'N/A',
+        price: booking.venuePrice || 0,
       },
     });
   }
 
-
   /**
-   * Navigate to Public Booking
-   */
-  navigateToPublicBooking(): void {
-    if (this.sport.name) {
-      this.router.navigate([`${this.sport.name.toLowerCase()}/public`], {
-        queryParams: { activityName: this.sport.name },
-      });
-    }
-  }
-
-  /**
-   * Fetch Activity ID by Activity Name
+   * Fetch activity ID by name
    */
   private fetchActivityIdByName(activityName: string): void {
     this.bookingService.getActivities().subscribe({
@@ -119,15 +110,33 @@ export class CourtBookingComponent implements OnInit {
   }
 
   /**
-   * Load Bookings by Activity ID
+   * Load bookings by activity ID
    */
   private loadActivityBookings(): void {
     this.bookingService.getBookingsByActivityId(this.sport.activityId).subscribe({
-      next: (response) => {
-        this.bookings = response;
+      next: (response: any[]) => {
+        console.log('Raw response from backend:', response);
+
+        // Transform raw data into desired format
+        this.bookings = response.map((booking: any) => ({
+          bookingId: booking.bookingId,
+          date: booking.date,
+          startTime: booking.startTime,
+          endTime: booking.endTime,
+          teamId: booking.teamId,
+          teamVisibility: booking.teamVisibility,
+          venueName: booking.venueName,
+          activityName: booking.activityName,
+          venuePrice: booking.venuePrice,
+        }));
+
+        // Filter only bookings where teamVisibility is "true"
         this.filteredBookings = this.bookings.filter(
-          (booking) => booking.team?.visibility === "false"
+          (booking) => booking.teamVisibility === 'false'
         );
+
+        // Log filtered bookings
+        console.log('Filtered bookings with teamVisibility "false":', this.filteredBookings);
       },
       error: (err) => {
         console.error('Error loading bookings:', err);
@@ -137,13 +146,26 @@ export class CourtBookingComponent implements OnInit {
   }
 
   /**
-   * Navigate Back Home
+   * Navigate to Public Booking
+   */
+  navigateToPublicBooking(): void {
+    if (this.sport.name) {
+      this.router.navigate([`${this.sport.name.toLowerCase()}/public`], {
+        queryParams: { activityName: this.sport.name },
+      });
+    }
+  }
+
+  /**
+   * Navigate back home
    */
   navigateHome(): void {
     this.router.navigate(['']);
   }
 
-  
+  /**
+   * Redirect to Private Booking
+   */
   redirectToPrivateBooking(): void {
     this.router.navigate(['/court-booking'], {
       queryParams: { sport: this.sport.name },

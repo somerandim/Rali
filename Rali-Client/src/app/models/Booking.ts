@@ -8,5 +8,8 @@ export interface Booking {
   startTime: string;         // Start time of the booking
   endTime: string;           // End time of the booking
   venue: Venue;              // The venue associated with the booking
-  team: Team   // Optional team ID (if applicable)
+  team: Team; // Optional team ID (if applicable)
+  teamVisibility : string;
+  venueName: string;
+  venuePrice : number;
 }

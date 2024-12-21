@@ -52,7 +52,7 @@ export class PublicbookingComponent implements OnInit {
         court: booking.venueName || 'Not Selected',
         type: 'Public',
         teamId: booking.teamId || 'N/A',
-        price: booking.price || 0,
+        price: booking.Venueprice|| 0,
       },
     });
   }
@@ -101,7 +101,9 @@ export class PublicbookingComponent implements OnInit {
   private loadActivityBookings(): void {
     this.bookingService.getBookingsByActivityId(this.activityId).subscribe({
       next: (response) => {
-        console.log(response);
+        console.log('Raw response from backend:', response);
+  
+        // Transform the raw response
         this.bookings = response.map((booking: any) => {
           return {
             bookingId: booking.bookingId,
@@ -109,14 +111,19 @@ export class PublicbookingComponent implements OnInit {
             startTime: booking.startTime,
             endTime: booking.endTime,
             teamId: booking.teamId,
+            teamVisibility: booking.teamVisibility, // Include teamVisibility
             venueName: booking.venueName,
             activityName: booking.activityName,
           };
         });
-
+  
+        // Filter only bookings where teamVisibility is "false"
         this.filteredBookings = this.bookings.filter(
-          (booking) => booking.teamId && booking.venueName && booking.startTime && booking.endTime
+          (booking) => booking.teamVisibility === "true"
         );
+  
+        // Log filtered bookings
+        console.log('Filtered bookings with teamVisibility "false":', this.filteredBookings);
       },
       error: (err) => {
         console.error('Error loading bookings:', err);
@@ -124,6 +131,7 @@ export class PublicbookingComponent implements OnInit {
       },
     });
   }
+  
 
   navigateHome(): void {
     this.router.navigate(['']);
